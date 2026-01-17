@@ -7,5 +7,9 @@
   "scaffold": {
     "tests": true
   },
-  "links": {}
+  "links": {
+    "github": "danielgwilson/beacons-ai",
+    "vercel": "dgwto/beacons-ai",
+    "db": "Vercel Postgres (Neon) - TODO provision"
+  }
 }

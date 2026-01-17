@@ -5,11 +5,11 @@ This repo is designed to be worked on by humans + coding agents. Optimize for **
 ## Project Links (keep updated)
 
 <!-- kit:project-links:start -->
-- GitHub: (fill)
-- Vercel: (fill)
+- GitHub: danielgwilson/beacons-ai
+- Vercel: dgwto/beacons-ai
 - Domain: (fill)
 - App URL (prod): (fill)
-- DB (provider + project): (fill)
+- DB (provider + project): Vercel Postgres (Neon) - TODO provision
 - Redis (provider): (fill)
 - Inngest: (fill)
 - Stripe: (fill)
@@ -46,6 +46,8 @@ This repo is designed to be worked on by humans + coding agents. Optimize for **
 
 
 
+
+
 <!-- kit:section:testing:start -->
 ## Testing
 
@@ -56,6 +58,8 @@ This repo is designed to be worked on by humans + coding agents. Optimize for **
 - All tests: `pnpm test:all`
 - Fast checks before handing off work: `pnpm lint` + `pnpm typecheck`
 <!-- kit:section:testing:end -->
+
+
 
 
 
@@ -80,6 +84,8 @@ Use these values:
 
 
 
+
+
 <!-- kit:section:drizzle:start -->
 ## Drizzle (migrations)
 
@@ -87,6 +93,31 @@ Use these values:
 - Avoid `drizzle-kit push` for anything important (OK only for throwaway local prototyping).
 - Keep `db:generate` / `db:migrate` scripts in `package.json` and keep `.env.example` up to date.
 <!-- kit:section:drizzle:end -->
+
+
+
+
+
+<!-- kit:section:db:start -->
+## Database (Postgres)
+
+- Keep schema changes reviewable and reproducible (migrations > ad-hoc edits).
+- Avoid destructive commands against any shared/production database.
+- Prefer adding small helper scripts for debugging/inspection (wired as `pnpm` scripts), rather than re-deriving SQL/queries each time.
+<!-- kit:section:db:end -->
+
+
+
+
+<!-- kit:section:db-neon:start -->
+## Neon (notes)
+
+- If you’re using Vercel Postgres (powered by Neon), provision it in the Vercel dashboard (Project → Storage).
+- After provisioning, Vercel will set Postgres env vars like `POSTGRES_URL` / `POSTGRES_URL_NON_POOLING` for Preview + Production.
+- Prefer the pooled/serverless connection string in production runtimes.
+- Keep `DATABASE_URL` consistent across local/dev/prod and avoid pointing migrations at the wrong database.
+<!-- kit:section:db-neon:end -->
+
 
 
 ## Quick Start
