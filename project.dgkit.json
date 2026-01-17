@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "beacons-ai",
+  "template": "next-app+shadcn",
+  "modules": ["auth-nextauth-google", "drizzle"],
+  "createdAt": "2026-01-17T02:16:43.550Z",
+  "scaffold": {
+    "tests": true
+  },
+  "links": {}
+}
