@@ -1,4 +1,4 @@
-# beacons-ai (Creator Pages)
+# Sundae
 
 Creator-first “link in bio” platform built with Next.js App Router, NextAuth (Google), and Postgres/Drizzle.
 
@@ -9,6 +9,7 @@ Creator-first “link in bio” platform built with Next.js App Router, NextAuth
 - Blocks: link, text, image, embed (YouTube/Vimeo), social, support, signup, contact
 - Analytics: page views + tracked clicks (`/app/analytics`)
 - Leads inbox: email signups + contact messages (`/app/leads`)
+- Lead notifications via Resend (optional)
 
 Docs:
 - `docs/RESEARCH.md` (feature research)

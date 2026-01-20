@@ -51,42 +51,82 @@ export default async function EditorPage() {
           </div>
           <div className="flex flex-wrap gap-2">
             <form action={createBlock.bind(null, "link")}>
-              <Button type="submit" variant="secondary" size="sm">
+              <Button
+                type="submit"
+                variant="secondary"
+                size="sm"
+                className="rounded-full"
+              >
                 + Link
               </Button>
             </form>
             <form action={createBlock.bind(null, "text")}>
-              <Button type="submit" variant="secondary" size="sm">
+              <Button
+                type="submit"
+                variant="secondary"
+                size="sm"
+                className="rounded-full"
+              >
                 + Text
               </Button>
             </form>
             <form action={createBlock.bind(null, "image")}>
-              <Button type="submit" variant="secondary" size="sm">
+              <Button
+                type="submit"
+                variant="secondary"
+                size="sm"
+                className="rounded-full"
+              >
                 + Image
               </Button>
             </form>
             <form action={createBlock.bind(null, "embed")}>
-              <Button type="submit" variant="secondary" size="sm">
+              <Button
+                type="submit"
+                variant="secondary"
+                size="sm"
+                className="rounded-full"
+              >
                 + Embed
               </Button>
             </form>
             <form action={createBlock.bind(null, "social")}>
-              <Button type="submit" variant="secondary" size="sm">
+              <Button
+                type="submit"
+                variant="secondary"
+                size="sm"
+                className="rounded-full"
+              >
                 + Social
               </Button>
             </form>
             <form action={createBlock.bind(null, "support")}>
-              <Button type="submit" variant="secondary" size="sm">
+              <Button
+                type="submit"
+                variant="secondary"
+                size="sm"
+                className="rounded-full"
+              >
                 + Support
               </Button>
             </form>
             <form action={createBlock.bind(null, "signup")}>
-              <Button type="submit" variant="secondary" size="sm">
+              <Button
+                type="submit"
+                variant="secondary"
+                size="sm"
+                className="rounded-full"
+              >
                 + Signup
               </Button>
             </form>
             <form action={createBlock.bind(null, "contact")}>
-              <Button type="submit" variant="secondary" size="sm">
+              <Button
+                type="submit"
+                variant="secondary"
+                size="sm"
+                className="rounded-full"
+              >
                 + Contact
               </Button>
             </form>
@@ -94,7 +134,7 @@ export default async function EditorPage() {
         </div>
 
         {pageBlocks.length === 0 ? (
-          <Card className="p-6">
+          <Card className="sundae-card p-6">
             <div className="font-medium">No blocks yet</div>
             <div className="mt-1 text-sm text-muted-foreground">
               Add a block above to start building your page.
@@ -136,7 +176,7 @@ export default async function EditorPage() {
             );
 
             return (
-              <Card key={block.id} className="p-6">
+              <Card key={block.id} className="sundae-card p-6">
                 {header}
 
                 <form

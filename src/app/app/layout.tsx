@@ -1,50 +1,9 @@
+import { Sparkles } from "lucide-react";
 import { redirect } from "next/navigation";
 import { signOut } from "@/auth";
+import { AppNav } from "@/components/app/app-nav";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { clearE2EEmail, getAuthIdentity } from "@/lib/server/auth-identity";
-import { cn } from "@/lib/utils";
-
-function AppNav({ className }: { className?: string }) {
-  return (
-    <div className={cn("flex items-center justify-between gap-4", className)}>
-      <div className="flex items-center gap-3">
-        <a href="/app" className="font-semibold tracking-tight">
-          Creator Pages
-        </a>
-        <Separator orientation="vertical" className="h-5" />
-        <div className="flex items-center gap-3 text-sm text-muted-foreground">
-          <a href="/app/editor" className="hover:text-foreground">
-            Editor
-          </a>
-          <a href="/app/analytics" className="hover:text-foreground">
-            Analytics
-          </a>
-          <a href="/app/leads" className="hover:text-foreground">
-            Leads
-          </a>
-          <a href="/app/settings" className="hover:text-foreground">
-            Settings
-          </a>
-        </div>
-      </div>
-      <form
-        action={async () => {
-          "use server";
-          if (process.env.E2E === "1") {
-            await clearE2EEmail();
-            redirect("/");
-          }
-          await signOut({ redirectTo: "/" });
-        }}
-      >
-        <Button type="submit" variant="secondary">
-          Sign out
-        </Button>
-      </form>
-    </div>
-  );
-}
 
 export default async function AppLayout({
   children,
@@ -57,13 +16,46 @@ export default async function AppLayout({
   }
 
   return (
-    <div className="min-h-screen">
-      <header className="border-b">
-        <div className="mx-auto max-w-5xl px-6 py-4">
-          <AppNav />
+    <div className="min-h-screen bg-background">
+      <header className="sticky top-0 z-10 border-b bg-background/75 backdrop-blur">
+        <div className="mx-auto max-w-6xl px-6 py-4">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <a href="/app" className="inline-flex items-center gap-2">
+                <span className="grid h-9 w-9 place-items-center rounded-2xl border bg-background/70 shadow-sm">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                </span>
+                <span className="font-semibold tracking-tight">Sundae</span>
+              </a>
+              <div className="hidden text-sm text-muted-foreground sm:block">
+                Studio
+              </div>
+            </div>
+
+            <AppNav />
+
+            <form
+              action={async () => {
+                "use server";
+                if (process.env.E2E === "1") {
+                  await clearE2EEmail();
+                  redirect("/");
+                }
+                await signOut({ redirectTo: "/" });
+              }}
+            >
+              <Button
+                type="submit"
+                variant="secondary"
+                className="rounded-full"
+              >
+                Sign out
+              </Button>
+            </form>
+          </div>
         </div>
       </header>
-      <main className="mx-auto max-w-5xl px-6 py-8">{children}</main>
+      <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
     </div>
   );
 }

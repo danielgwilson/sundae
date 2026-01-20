@@ -1,4 +1,5 @@
 import { sql } from "drizzle-orm";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getDb } from "@/lib/db";
@@ -63,7 +64,7 @@ export default async function AnalyticsPage() {
         </p>
       </div>
 
-      <Card className="p-6">
+      <Card className="sundae-card p-6">
         <div className="text-sm font-medium">Daily</div>
         <div className="mt-4 grid gap-3">
           {days.length === 0 ? (
@@ -96,17 +97,14 @@ export default async function AnalyticsPage() {
         </div>
       </Card>
 
-      <Card className="p-6">
+      <Card className="sundae-card p-6">
         <div className="flex items-center justify-between gap-4">
           <div className="text-sm font-medium">Top destinations</div>
-          <div className="text-sm">
-            <a
-              className="underline underline-offset-4"
-              href={`/${profile.handle}`}
-            >
+          <a href={`/${profile.handle}`}>
+            <Button variant="secondary" className="rounded-full">
               View public page
-            </a>
-          </div>
+            </Button>
+          </a>
         </div>
         <Separator className="my-4" />
         <div className="space-y-3">

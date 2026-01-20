@@ -70,24 +70,16 @@ test("creator can edit blocks, capture leads, and see analytics", async ({
   expect(location).toContain("https://example.com/?e2e=1");
 
   // Submit contact lead.
-  const contactPublicCard = page
-    .locator('[data-slot="card"]')
-    .filter({ hasText: "Contact me" })
-    .first();
-  await contactPublicCard.locator('input[name="email"]').fill(email);
-  await contactPublicCard
-    .locator('textarea[name="message"]')
-    .fill("Hello from e2e");
-  await contactPublicCard.getByRole("button", { name: "Send" }).click();
+  const contactForm = page.locator('form[action*="kind=contact"]').first();
+  await contactForm.locator('input[name="email"]').fill(email);
+  await contactForm.locator('textarea[name="message"]').fill("Hello from e2e");
+  await contactForm.getByRole("button", { name: "Send" }).click();
   await expect(page).toHaveURL(/submitted=1/);
 
   // Submit signup lead.
-  const signupPublicCard = page
-    .locator('[data-slot="card"]')
-    .filter({ hasText: "Subscribe" })
-    .first();
-  await signupPublicCard.locator('input[name="email"]').fill(email);
-  await signupPublicCard.getByRole("button", { name: "Subscribe" }).click();
+  const signupForm = page.locator('form[action*="kind=signup"]').first();
+  await signupForm.locator('input[name="email"]').fill(email);
+  await signupForm.getByRole("button", { name: "Subscribe" }).click();
   await expect(page).toHaveURL(/submitted=1/);
 
   // Lead shows up in inbox.

@@ -12,10 +12,6 @@ import Image from "next/image";
 import React from "react";
 import { CreatorAnalyticsBeacon } from "@/components/creator/analytics-beacon";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import type { BlockType } from "@/lib/blocks";
 import { type CreatorTheme, themeToStyle } from "@/lib/theme";
 import { cn } from "@/lib/utils";
@@ -94,7 +90,7 @@ function BlockShell({
   return (
     <div
       className={cn(
-        "rounded-xl border bg-[var(--creator-card)] px-4 py-3 shadow-sm",
+        "rounded-3xl border border-black/10 bg-[var(--creator-card)] px-4 py-3 shadow-[0_18px_60px_-40px_rgba(0,0,0,0.35)] backdrop-blur",
         className,
       )}
     >
@@ -113,18 +109,30 @@ function LinkBlock({ blockId, data }: { blockId: string; data: unknown }) {
   return (
     <a
       href={href}
-      className="block rounded-xl border bg-[var(--creator-card)] px-4 py-3 shadow-sm transition hover:opacity-95"
+      className={cn(
+        "group relative block overflow-hidden rounded-3xl border border-black/10 bg-[var(--creator-card)] px-4 py-3 shadow-[0_18px_60px_-40px_rgba(0,0,0,0.35)] backdrop-blur transition",
+        "hover:-translate-y-0.5 hover:shadow-[0_28px_70px_-40px_rgba(0,0,0,0.45)] active:translate-y-0",
+      )}
     >
+      <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100">
+        <div className="absolute -left-20 -top-16 h-48 w-48 rounded-full bg-[var(--creator-accent)]/20 blur-2xl" />
+        <div className="absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-[var(--creator-btn-bg)]/25 blur-3xl" />
+      </div>
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <div className="truncate font-medium">{title || "Link"}</div>
+          <div className="truncate font-semibold tracking-tight">
+            {title || "Link"}
+          </div>
           {subtitle ? (
             <div className="truncate text-sm text-[var(--creator-muted)]">
               {subtitle}
             </div>
           ) : null}
         </div>
-        <Badge variant="secondary" className="shrink-0">
+        <Badge
+          variant="secondary"
+          className="shrink-0 rounded-full bg-background/70"
+        >
           Open
         </Badge>
       </div>
@@ -227,17 +235,21 @@ function SocialBlock({ data }: { data: unknown }) {
   if (normalized.length === 0) return null;
 
   return (
-    <BlockShell className="flex flex-wrap items-center justify-center gap-3">
+    <BlockShell className="flex flex-wrap items-center justify-center gap-2">
       {normalized.map((l) => (
         <a
           key={`${l.platform}-${l.url}`}
           href={l.url}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-sm hover:bg-black/5 dark:hover:bg-white/10"
+          className="group inline-flex items-center gap-2 rounded-full border border-black/10 bg-background/60 px-3 py-2 text-sm shadow-sm backdrop-blur transition hover:bg-background/80"
         >
-          <SocialIcon platform={l.platform} />
-          <span className="capitalize">{l.platform}</span>
+          <span className="grid h-8 w-8 place-items-center rounded-full bg-[var(--creator-accent)]/15 text-[var(--creator-text)]">
+            <SocialIcon platform={l.platform} />
+          </span>
+          <span className="capitalize text-[var(--creator-text)]">
+            {l.platform}
+          </span>
         </a>
       ))}
     </BlockShell>
@@ -274,15 +286,17 @@ function SignupBlock({
   const description = safeString(obj.description);
 
   return (
-    <Card className="gap-4 p-4">
+    <BlockShell className="p-4">
       <div className="space-y-1">
-        <div className="font-medium">{title}</div>
+        <div className="font-semibold tracking-tight">{title}</div>
         {description ? (
-          <div className="text-sm text-muted-foreground">{description}</div>
+          <div className="text-sm text-[var(--creator-muted)]">
+            {description}
+          </div>
         ) : null}
       </div>
       <form
-        className="flex flex-col gap-2"
+        className="mt-4 flex flex-col gap-2"
         action={`/api/leads?profileId=${encodeURIComponent(profileId)}&kind=signup`}
         method="post"
       >
@@ -293,12 +307,21 @@ function SignupBlock({
           autoComplete="off"
           className="hidden"
         />
-        <Input name="email" type="email" placeholder="you@email.com" required />
-        <Button type="submit" className="w-full">
+        <input
+          name="email"
+          type="email"
+          placeholder="you@email.com"
+          required
+          className="h-11 rounded-2xl border border-black/10 bg-background/75 px-4 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] focus:border-black/20 focus:ring-4 focus:ring-[var(--creator-accent)]/15"
+        />
+        <button
+          type="submit"
+          className="h-11 w-full rounded-2xl bg-[var(--creator-btn-bg)] px-4 text-sm font-semibold text-[var(--creator-btn-text)] shadow-sm transition hover:opacity-95"
+        >
           Subscribe
-        </Button>
+        </button>
       </form>
-    </Card>
+    </BlockShell>
   );
 }
 
@@ -314,15 +337,17 @@ function ContactBlock({
   const description = safeString(obj.description);
 
   return (
-    <Card className="gap-4 p-4">
+    <BlockShell className="p-4">
       <div className="space-y-1">
-        <div className="font-medium">{title}</div>
+        <div className="font-semibold tracking-tight">{title}</div>
         {description ? (
-          <div className="text-sm text-muted-foreground">{description}</div>
+          <div className="text-sm text-[var(--creator-muted)]">
+            {description}
+          </div>
         ) : null}
       </div>
       <form
-        className="grid gap-2"
+        className="mt-4 grid gap-2"
         action={`/api/leads?profileId=${encodeURIComponent(profileId)}&kind=contact`}
         method="post"
       >
@@ -333,14 +358,33 @@ function ContactBlock({
           autoComplete="off"
           className="hidden"
         />
-        <Input name="name" placeholder="Name" />
-        <Input name="email" type="email" placeholder="Email" required />
-        <Textarea name="message" placeholder="Message" required />
-        <Button type="submit" className="w-full">
+        <input
+          name="name"
+          placeholder="Name"
+          className="h-11 rounded-2xl border border-black/10 bg-background/75 px-4 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] focus:border-black/20 focus:ring-4 focus:ring-[var(--creator-accent)]/15"
+        />
+        <input
+          name="email"
+          type="email"
+          placeholder="Email"
+          required
+          className="h-11 rounded-2xl border border-black/10 bg-background/75 px-4 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] focus:border-black/20 focus:ring-4 focus:ring-[var(--creator-accent)]/15"
+        />
+        <textarea
+          name="message"
+          placeholder="Message"
+          required
+          rows={4}
+          className="min-h-[110px] resize-none rounded-2xl border border-black/10 bg-background/75 px-4 py-3 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] focus:border-black/20 focus:ring-4 focus:ring-[var(--creator-accent)]/15"
+        />
+        <button
+          type="submit"
+          className="h-11 w-full rounded-2xl bg-[var(--creator-btn-bg)] px-4 text-sm font-semibold text-[var(--creator-btn-text)] shadow-sm transition hover:opacity-95"
+        >
           Send
-        </Button>
+        </button>
       </form>
-    </Card>
+    </BlockShell>
   );
 }
 
@@ -382,7 +426,10 @@ export function CreatorPage({
       style={themeToStyle(profile.theme)}
       data-handle={profile.handle}
     >
-      <div className="min-h-screen bg-[var(--creator-bg)] px-5 py-10 text-[var(--creator-text)]">
+      <div
+        className="min-h-screen px-5 py-10 text-[var(--creator-text)]"
+        style={{ background: "var(--creator-bg)" }}
+      >
         <div className="mx-auto w-full max-w-md space-y-6">
           <header className="flex flex-col items-center text-center">
             {showPreviewBadge ? (
@@ -391,7 +438,7 @@ export function CreatorPage({
               </div>
             ) : null}
             {profile.avatarUrl ? (
-              <div className="relative h-20 w-20 overflow-hidden rounded-full border bg-[var(--creator-card)]">
+              <div className="relative h-20 w-20 overflow-hidden rounded-full border border-black/10 bg-[var(--creator-card)] shadow-sm">
                 <Image
                   src={profile.avatarUrl}
                   alt={profile.displayName}
@@ -400,14 +447,19 @@ export function CreatorPage({
                 />
               </div>
             ) : null}
-            <div className="mt-4 text-xl font-semibold tracking-tight">
+            <h1 className="mt-4 text-2xl font-semibold tracking-tight">
               {profile.displayName}
-            </div>
+            </h1>
             {profile.bio ? (
               <p className="mt-1 max-w-sm text-sm text-[var(--creator-muted)]">
                 {profile.bio}
               </p>
             ) : null}
+            <div className="mt-3 flex items-center gap-2 text-xs text-[var(--creator-muted)]">
+              <span className="rounded-full border border-black/10 bg-background/60 px-3 py-1 backdrop-blur">
+                @{profile.handle}
+              </span>
+            </div>
           </header>
 
           <div className="grid gap-3">
@@ -420,7 +472,7 @@ export function CreatorPage({
 
           <footer className="pt-4 text-center text-xs text-[var(--creator-muted)]">
             <a className="underline underline-offset-4" href="/">
-              Powered by Creator Pages
+              Powered by Sundae
             </a>
           </footer>
         </div>

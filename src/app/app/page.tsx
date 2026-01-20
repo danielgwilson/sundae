@@ -1,4 +1,5 @@
 import { sql } from "drizzle-orm";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { getDb } from "@/lib/db";
 import { analyticsEvents, blocks } from "@/lib/db/schema";
@@ -36,18 +37,15 @@ export default async function AppHomePage() {
             Manage your creator page and track performance.
           </p>
         </div>
-        <div className="text-sm">
-          <a
-            className="underline underline-offset-4"
-            href={`/${profile.handle}`}
-          >
+        <a href={`/${profile.handle}`}>
+          <Button variant="secondary" className="rounded-full">
             View public page
-          </a>
-        </div>
+          </Button>
+        </a>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <Card className="p-6">
+        <Card className="sundae-card p-6">
           <div className="text-sm text-muted-foreground">Blocks</div>
           <div className="mt-1 text-3xl font-semibold">{blockCount ?? 0}</div>
           <div className="mt-4 text-sm">
@@ -56,7 +54,7 @@ export default async function AppHomePage() {
             </a>
           </div>
         </Card>
-        <Card className="p-6">
+        <Card className="sundae-card p-6">
           <div className="text-sm text-muted-foreground">Views (7d)</div>
           <div className="mt-1 text-3xl font-semibold">{views7d ?? 0}</div>
           <div className="mt-4 text-sm">
@@ -65,7 +63,7 @@ export default async function AppHomePage() {
             </a>
           </div>
         </Card>
-        <Card className="p-6">
+        <Card className="sundae-card p-6">
           <div className="text-sm text-muted-foreground">Clicks (7d)</div>
           <div className="mt-1 text-3xl font-semibold">{clicks7d ?? 0}</div>
           <div className="mt-4 text-sm">

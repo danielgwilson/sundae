@@ -6,9 +6,9 @@ This repo is designed to be worked on by humans + coding agents. Optimize for **
 
 <!-- kit:project-links:start -->
 - GitHub: danielgwilson/beacons-ai
-- Vercel: dgwto/beacons-ai
-- Domain: (fill)
-- App URL (prod): (fill)
+- Vercel: gsl-is/sundae
+- Domain: sundae.to
+- App URL (prod): https://sundae.to
 - DB (provider + project): Vercel Postgres (Neon) - TODO provision
 - Redis (provider): (fill)
 - Inngest: (fill)

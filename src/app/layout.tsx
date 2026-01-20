@@ -1,21 +1,27 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Mono, Epilogue, Fraunces } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const sundaeSans = Epilogue({
+  variable: "--font-sundae-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const sundaeDisplay = Fraunces({
+  variable: "--font-sundae-display",
   subsets: ["latin"],
+});
+
+const sundaeMono = DM_Mono({
+  variable: "--font-sundae-mono",
+  subsets: ["latin"],
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
-  title: "Creator Pages",
+  title: "Sundae",
   description:
-    "Build a creator link-in-bio page with blocks, themes, analytics, and lead capture.",
+    "A creator homepage that turns taps into subscribers and customers.",
 };
 
 export default function RootLayout({
@@ -26,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${sundaeSans.variable} ${sundaeDisplay.variable} ${sundaeMono.variable} antialiased`}
       >
         {children}
       </body>

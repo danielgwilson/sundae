@@ -1,5 +1,6 @@
 import { asc, eq } from "drizzle-orm";
 import { CreatorPage } from "@/components/creator/creator-page";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -38,7 +39,7 @@ export default async function SettingsPage() {
           </p>
         </div>
 
-        <Card className="p-6">
+        <Card className="sundae-card p-6">
           <div className="text-sm font-medium">Profile</div>
           <Separator className="my-4" />
           <form className="grid gap-4" action={updateProfile}>
@@ -67,16 +68,13 @@ export default async function SettingsPage() {
                 defaultValue={profile.avatarUrl ?? ""}
               />
             </div>
-            <button
-              type="submit"
-              className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-95"
-            >
+            <Button type="submit" className="h-10 rounded-full">
               Save profile
-            </button>
+            </Button>
           </form>
         </Card>
 
-        <Card className="p-6">
+        <Card className="sundae-card p-6">
           <div className="text-sm font-medium">Handle</div>
           <Separator className="my-4" />
           <form className="grid gap-4" action={updateHandle}>
@@ -88,16 +86,13 @@ export default async function SettingsPage() {
                 <span className="font-mono">/{profile.handle}</span>
               </div>
             </div>
-            <button
-              type="submit"
-              className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-95"
-            >
+            <Button type="submit" className="h-10 rounded-full">
               Update handle
-            </button>
+            </Button>
           </form>
         </Card>
 
-        <Card className="p-6">
+        <Card className="sundae-card p-6">
           <div className="text-sm font-medium">Theme</div>
           <Separator className="my-4" />
           <form className="grid gap-4" action={updateTheme}>
@@ -165,12 +160,9 @@ export default async function SettingsPage() {
               />
             </div>
 
-            <button
-              type="submit"
-              className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-95"
-            >
+            <Button type="submit" className="h-10 rounded-full">
               Save theme
-            </button>
+            </Button>
           </form>
 
           <Separator className="my-6" />
@@ -187,7 +179,7 @@ export default async function SettingsPage() {
         </Card>
       </div>
 
-      <div className="sticky top-6 h-fit overflow-hidden rounded-2xl border">
+      <div className="sticky top-24 h-fit overflow-hidden rounded-3xl border bg-background/70 shadow-sm backdrop-blur">
         <CreatorPage
           showPreviewBadge
           profile={{
