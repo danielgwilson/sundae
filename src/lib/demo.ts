@@ -24,7 +24,7 @@ export const DEMO_PROFILE: DemoProfile = {
   displayName: "Demo Creator",
   bio: "A real Sundae page: links, embeds, lead capture, and click tracking.",
   avatarUrl: "/brand/demo-avatar.svg",
-  theme: THEME_PRESETS["blueberry-soda"].theme,
+  theme: THEME_PRESETS.vanilla.theme,
 };
 
 export const DEMO_BLOCKS: DemoBlock[] = [

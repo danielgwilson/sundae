@@ -300,7 +300,7 @@
       48px 48px,
       48px 48px,
       24px 24px;
-    animation: pixel-grid-drift 26s linear infinite;
+    animation: pixel-grid-drift 96s linear infinite;
     image-rendering: pixelated;
     mix-blend-mode: multiply;
   }
@@ -326,7 +326,7 @@
       48px 48px,
       48px 48px,
       24px 24px;
-    animation: pixel-grid-drift 28s linear infinite;
+    animation: pixel-grid-drift 110s linear infinite;
     image-rendering: pixelated;
     mix-blend-mode: overlay;
     mask-image: radial-gradient(65% 60% at 50% 10%, #000 18%, transparent 75%);
