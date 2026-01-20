@@ -34,6 +34,10 @@ pnpm dev
 
 Optional:
 - `ANALYTICS_SALT` (falls back to `AUTH_SECRET`)
+- Email notifications (Resend):
+  - `RESEND_API_KEY`
+  - `RESEND_FROM` (example: `"Sundae <hello@sundae.to>"`)
+- `APP_URL` (server-side base URL for absolute links in emails; use `https://sundae.to` in prod)
 
 ## Deploy
 
