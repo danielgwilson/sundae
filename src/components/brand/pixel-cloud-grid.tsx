@@ -3,23 +3,14 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-type Cluster = {
+type Dot = {
   x: number;
   y: number;
-  vx: number;
-  vy: number;
-  phase: number;
-};
-
-type Dot = {
-  cluster: number;
-  ox: number;
-  oy: number;
-  weight: number;
-  size: number;
-  glow: number;
+  r: number;
+  baseAlpha: number;
   color: string;
-  spriteIndex: number;
+  bloom: number;
+  seed: number;
 };
 
 function hash(n: number) {
@@ -34,14 +25,57 @@ function rand01(seed: number) {
   return (hash(seed) >>> 0) / 4294967295;
 }
 
-function randSigned(seed: number) {
-  return rand01(seed) * 2 - 1;
+function clamp01(v: number) {
+  return Math.max(0, Math.min(1, v));
 }
 
-function gauss(seed: number) {
-  const u1 = Math.max(1e-6, rand01(seed * 13 + 1));
-  const u2 = rand01(seed * 13 + 2);
-  return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+function smoothstep(edge0: number, edge1: number, x: number) {
+  const t = clamp01((x - edge0) / (edge1 - edge0));
+  return t * t * (3 - 2 * t);
+}
+
+function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * t;
+}
+
+function fade(t: number) {
+  return t * t * t * (t * (t * 6 - 15) + 10);
+}
+
+function valueNoise2D(x: number, y: number, seed: number) {
+  const xi = Math.floor(x);
+  const yi = Math.floor(y);
+  const xf = x - xi;
+  const yf = y - yi;
+
+  const h00 = rand01(seed + xi * 374761 + yi * 668265);
+  const h10 = rand01(seed + (xi + 1) * 374761 + yi * 668265);
+  const h01 = rand01(seed + xi * 374761 + (yi + 1) * 668265);
+  const h11 = rand01(seed + (xi + 1) * 374761 + (yi + 1) * 668265);
+
+  const u = fade(xf);
+  const v = fade(yf);
+
+  const x1 = lerp(h00, h10, u);
+  const x2 = lerp(h01, h11, u);
+  return lerp(x1, x2, v);
+}
+
+function fbm2D(x: number, y: number, seed: number, octaves = 4) {
+  let value = 0;
+  let amplitude = 0.5;
+  let frequency = 1;
+  let norm = 0;
+
+  for (let i = 0; i < octaves; i += 1) {
+    value +=
+      valueNoise2D(x * frequency, y * frequency, seed + i * 1013) * amplitude;
+    norm += amplitude;
+    amplitude *= 0.5;
+    frequency *= 2;
+  }
+
+  return value / Math.max(1e-6, norm);
 }
 
 function cssVar(root: HTMLElement, name: string, fallback: string) {
@@ -49,52 +83,28 @@ function cssVar(root: HTMLElement, name: string, fallback: string) {
   return value || fallback;
 }
 
-function toRgbaColor(color: string, probe: HTMLElement) {
+function toRgb(color: string, probe: HTMLElement) {
   probe.style.color = color;
   const computed = getComputedStyle(probe).color;
-  return computed || "rgba(160,255,180,0.18)";
-}
-
-function withAlpha(color: string, alpha: number) {
-  if (color.startsWith("rgba(")) {
-    return color.replace(/rgba\(([^)]+),\s*[\d.]+\)/, `rgba($1, ${alpha})`);
-  }
-  if (color.startsWith("rgb(")) {
-    return color.replace("rgb(", "rgba(").replace(")", `, ${alpha})`);
-  }
-  return color;
-}
-
-function makeDotSprite(color: string, size: number) {
-  const c = document.createElement("canvas");
-  c.width = size;
-  c.height = size;
-  const g = c.getContext("2d");
-  if (!g) return c;
-
-  const r = size / 2;
-  const grad = g.createRadialGradient(r, r, 0, r, r, r);
-  grad.addColorStop(0, withAlpha(color, 0.9));
-  grad.addColorStop(0.45, withAlpha(color, 0.28));
-  grad.addColorStop(1, withAlpha(color, 0));
-  g.fillStyle = grad;
-  g.fillRect(0, 0, size, size);
-  return c;
+  return computed || "rgb(160,255,180)";
 }
 
 export function PixelCloudGrid({ className }: { className?: string }) {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const grainId = `grain-${React.useId().replaceAll(":", "")}`;
 
   React.useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const canvasEl: HTMLCanvasElement = canvas;
 
-    const ctxMaybe = canvasEl.getContext("2d", { alpha: true });
-    if (!ctxMaybe) return;
-    const ctx: CanvasRenderingContext2D = ctxMaybe;
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) return;
+
+    const canvasEl: HTMLCanvasElement = canvas;
+    const ctx2d: CanvasRenderingContext2D = ctx;
 
     const root = document.documentElement;
+    const motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const probe = document.createElement("span");
     probe.style.position = "fixed";
@@ -102,183 +112,166 @@ export function PixelCloudGrid({ className }: { className?: string }) {
     probe.style.pointerEvents = "none";
     document.body.appendChild(probe);
 
-    let reducedMotion = false;
-    const motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    reducedMotion = motionMq.matches;
-
     let dpr = Math.min(2, window.devicePixelRatio || 1);
-    let raf = 0;
-    let lastT = 0;
-    let lastDraw = 0;
-
-    let palette: string[] = [];
-    let sprites: HTMLCanvasElement[] = [];
-    let clusters: Cluster[] = [];
     let dots: Dot[] = [];
+    let raf = 0;
+    let lastDraw = 0;
+    let reducedMotion = motionMq.matches;
 
-    function readPalette() {
-      const raw = [
-        cssVar(root, "--pixel-cloud-a", "rgba(160,255,180,0.18)"),
-        cssVar(root, "--pixel-cloud-b", "rgba(160,220,255,0.16)"),
-        cssVar(root, "--pixel-cloud-c", "rgba(255,160,240,0.12)"),
-      ];
-      palette = raw.map((c) => toRgbaColor(c, probe));
-      sprites = palette.map((c) => makeDotSprite(c, Math.round(56 * dpr)));
-    }
+    const seedBase = 713_071;
 
-    function rebuild() {
-      readPalette();
-
+    function buildDots() {
+      dpr = Math.min(2, window.devicePixelRatio || 1);
       const w = window.innerWidth;
       const h = window.innerHeight;
-      dpr = Math.min(2, window.devicePixelRatio || 1);
 
       canvasEl.width = Math.max(1, Math.floor(w * dpr));
       canvasEl.height = Math.max(1, Math.floor(h * dpr));
-
       canvasEl.style.width = `${w}px`;
       canvasEl.style.height = `${h}px`;
 
-      const seedBase = Math.floor(rand01(w * 31 + h * 97) * 1e9);
       const isDark = root.classList.contains("dark");
-
-      const clusterCount = w < 520 ? 5 : 8;
-      clusters = Array.from({ length: clusterCount }).map((_, i) => {
-        const seed = seedBase + i * 997;
-        const speed = 0.06 + rand01(seed + 5) * 0.12;
-        return {
-          x: rand01(seed + 1) * w,
-          y: rand01(seed + 2) * h,
-          vx: randSigned(seed + 3) * speed,
-          vy: randSigned(seed + 4) * speed * 0.6,
-          phase: rand01(seed + 6) * Math.PI * 2,
-        };
-      });
+      const palette = [
+        toRgb(cssVar(root, "--pixel-cloud-a", "rgba(160,255,180,0.18)"), probe),
+        toRgb(cssVar(root, "--pixel-cloud-b", "rgba(160,220,255,0.16)"), probe),
+        toRgb(cssVar(root, "--pixel-cloud-c", "rgba(255,160,240,0.12)"), probe),
+      ];
 
       const area = w * h;
-      const targetDots = Math.round(Math.min(1400, Math.max(520, area / 1700)));
-      dots = Array.from({ length: targetDots }).map((_, i) => {
-        const seed = seedBase + 10000 + i * 41;
-        const cluster = Math.floor(rand01(seed + 1) * clusters.length);
-        const spread = (w < 520 ? 62 : 86) * (0.75 + rand01(seed + 2) * 1.1);
-        const ox = gauss(seed + 3) * spread;
-        const oy = gauss(seed + 4) * spread * (0.75 + rand01(seed + 5) * 0.55);
-        const radial = Math.min(
-          1,
-          Math.sqrt((ox * ox + oy * oy) / (spread * spread)),
-        );
-        const weight = Math.max(0.05, 1 - radial);
-        const size = (0.85 + rand01(seed + 6) * 1.55) * (w < 520 ? 1.05 : 1);
-        const glow = size * (6.2 + rand01(seed + 7) * 10.5);
-        const color =
-          palette[(i + cluster) % Math.max(1, palette.length)] ??
-          palette[0] ??
-          "rgba(160,255,180,0.18)";
-        const spriteIndex =
-          (i + cluster) % Math.max(1, sprites.length || palette.length || 1);
+      const target = Math.round(Math.min(3400, Math.max(1100, area / 1150)));
+      const cell = Math.max(18, Math.min(34, Math.sqrt(area / target)));
 
-        return { cluster, ox, oy, weight, size, glow, color, spriteIndex };
-      });
+      const xCells = Math.max(1, Math.floor(w / cell));
+      const yCells = Math.max(1, Math.floor(h / cell));
 
-      // Dial down the “cheesy” feel on light backgrounds.
-      if (!isDark) {
-        dots = dots.map((d) => ({ ...d, glow: d.glow * 0.92 }));
+      const next: Dot[] = [];
+      let i = 0;
+
+      // Structured “fields” driven by a calm FBM (no vectors, no drifting dots).
+      for (let cy = 0; cy <= yCells; cy += 1) {
+        for (let cx = 0; cx <= xCells; cx += 1) {
+          const seed = seedBase + cx * 9176 + cy * 13849;
+          const jx = (rand01(seed + 1) - 0.5) * cell * 0.92;
+          const jy = (rand01(seed + 2) - 0.5) * cell * 0.92;
+          const x = cx * cell + jx;
+          const y = cy * cell + jy;
+
+          // Radial mask keeps texture focused on hero/top, fades out edges.
+          const mx = x / Math.max(1, w) - 0.52;
+          const my = y / Math.max(1, h) - 0.22;
+          const d = Math.sqrt(mx * mx * 1.15 + my * my * 1.65);
+          const mask = 1 - smoothstep(0.25, 0.95, d);
+          if (mask <= 0) continue;
+
+          const field = fbm2D(x * 0.0024, y * 0.0024, seedBase + 31, 4);
+          const density = smoothstep(0.38, 0.78, field) * mask;
+
+          // Deterministic “keep” test -> controlled stipple, not uniform static.
+          const keep = rand01(seed + 3);
+          if (keep > density * 0.92) continue;
+
+          const r = (0.72 + rand01(seed + 4) * 1.35) * (w < 520 ? 1.05 : 1);
+          const baseAlpha =
+            (0.028 + density * (isDark ? 0.11 : 0.085)) *
+            (0.7 + rand01(seed + 5) * 0.75);
+          const bloom = rand01(seed + 6) < 0.09 ? 0.55 + rand01(seed + 7) : 0;
+          const color =
+            palette[i % Math.max(1, palette.length)] ??
+            palette[0] ??
+            "rgb(160,255,180)";
+
+          next.push({ x, y, r, baseAlpha, color, bloom, seed });
+          i += 1;
+        }
       }
+
+      dots = next;
     }
 
-    function drawFrame(t: number) {
-      if (t - lastDraw < 26) return;
+    function draw(t: number) {
+      // Throttle: calm, near-static motion (no obvious vectors).
+      if (t - lastDraw < 40) {
+        if (!reducedMotion) raf = window.requestAnimationFrame(draw);
+        return;
+      }
       lastDraw = t;
-
-      const dtMs = Math.min(48, t - lastT || 16);
-      const dt = dtMs / 1000;
-      lastT = t;
 
       const w = canvasEl.width / dpr;
       const h = canvasEl.height / dpr;
+      const time = t / 1000;
 
-      ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
-      ctx.save();
-      ctx.scale(dpr, dpr);
+      ctx2d.clearRect(0, 0, canvasEl.width, canvasEl.height);
+      ctx2d.save();
+      ctx2d.scale(dpr, dpr);
 
       const isDark = root.classList.contains("dark");
-      ctx.globalCompositeOperation = isDark ? "screen" : "multiply";
+      ctx2d.globalCompositeOperation = isDark ? "screen" : "multiply";
 
-      // Slow drift + subtle “breathing”.
-      for (let i = 0; i < clusters.length; i += 1) {
-        const c = clusters[i];
-        if (!c) continue;
-        c.phase += dt * 0.18;
-        c.x += c.vx * dt * 22;
-        c.y += c.vy * dt * 22;
-        c.y += Math.sin(c.phase) * dt * 10;
+      // A calm stipple field: static points, barely shifting opacity (no vectors).
+      for (const d of dots) {
+        const drift =
+          fbm2D(
+            d.x * 0.0105 + time * 0.028,
+            d.y * 0.0105 - time * 0.022,
+            seedBase + d.seed,
+            3,
+          ) *
+            2 -
+          1;
 
-        if (c.x > w + 140) c.x = -140;
-        if (c.x < -140) c.x = w + 140;
-        if (c.y > h + 140) c.y = -140;
-        if (c.y < -140) c.y = h + 140;
+        const alpha = clamp01(d.baseAlpha * (1 + drift * 0.09));
+        if (alpha <= 0.002) continue;
+
+        // Rare micro-bloom adds depth without looking like “clouds”.
+        if (d.bloom > 0) {
+          ctx2d.beginPath();
+          ctx2d.fillStyle = d.color;
+          ctx2d.globalAlpha = alpha * 0.22 * d.bloom;
+          ctx2d.arc(d.x, d.y, d.r * (2.25 + d.bloom), 0, Math.PI * 2);
+          ctx2d.fill();
+        }
+
+        ctx2d.beginPath();
+        ctx2d.fillStyle = d.color;
+        ctx2d.globalAlpha = alpha;
+        ctx2d.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx2d.fill();
       }
 
-      // Glow pass (high-end “misty” points).
-      for (let i = 0; i < dots.length; i += 1) {
-        const d = dots[i];
-        if (!d) continue;
-        const c = clusters[d.cluster];
-        if (!c) continue;
-        const x = c.x + d.ox;
-        const y = c.y + d.oy;
-        const alpha = Math.min(0.22, 0.1 + d.weight * 0.16);
-        const sprite = sprites[d.spriteIndex] ?? sprites[0] ?? null;
-        if (!sprite) continue;
-        const r = d.glow;
-        ctx.globalAlpha = alpha;
-        ctx.drawImage(sprite, x - r, y - r, r * 2, r * 2);
-      }
+      // Gentle “lift” on the very top band (keeps it feeling expensive).
+      const grad = ctx2d.createLinearGradient(0, 0, 0, h);
+      grad.addColorStop(0, "rgba(255,255,255,0.22)");
+      grad.addColorStop(0.38, "rgba(255,255,255,0)");
+      ctx2d.globalCompositeOperation = isDark ? "screen" : "multiply";
+      ctx2d.globalAlpha = isDark ? 0.22 : 0.14;
+      ctx2d.fillStyle = grad;
+      ctx2d.fillRect(0, 0, w, h);
 
-      // Crisp points.
-      ctx.globalCompositeOperation = "source-over";
-      for (let i = 0; i < dots.length; i += 1) {
-        const d = dots[i];
-        if (!d) continue;
-        const c = clusters[d.cluster];
-        if (!c) continue;
-        const x = c.x + d.ox;
-        const y = c.y + d.oy;
-        const alpha = Math.min(0.62, 0.08 + d.weight * 0.56);
-        ctx.beginPath();
-        ctx.fillStyle = d.color;
-        ctx.globalAlpha = alpha;
-        ctx.arc(x, y, d.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
+      ctx2d.restore();
 
-      ctx.restore();
-    }
-
-    function tick(t: number) {
-      drawFrame(t);
-      if (!reducedMotion) raf = window.requestAnimationFrame(tick);
+      if (!reducedMotion) raf = window.requestAnimationFrame(draw);
     }
 
     const onResize = () => {
-      rebuild();
-      drawFrame(performance.now());
+      buildDots();
+      draw(performance.now());
     };
 
     const onMotionChange = () => {
       reducedMotion = motionMq.matches;
       window.cancelAnimationFrame(raf);
-      drawFrame(performance.now());
-      if (!reducedMotion) raf = window.requestAnimationFrame(tick);
+      draw(performance.now());
+      if (!reducedMotion) raf = window.requestAnimationFrame(draw);
     };
 
     const onThemeChange = () => {
-      readPalette();
+      buildDots();
+      draw(performance.now());
     };
 
-    rebuild();
-    drawFrame(performance.now());
-    if (!reducedMotion) raf = window.requestAnimationFrame(tick);
+    buildDots();
+    draw(performance.now());
+    if (!reducedMotion) raf = window.requestAnimationFrame(draw);
 
     window.addEventListener("resize", onResize, { passive: true });
     motionMq.addEventListener("change", onMotionChange);
@@ -308,19 +301,39 @@ export function PixelCloudGrid({ className }: { className?: string }) {
     >
       <div className="absolute inset-0 bg-background" />
 
-      <div className="absolute inset-0 opacity-[0.55] [mask-image:radial-gradient(55%_55%_at_50%_12%,#000_25%,transparent_78%)]">
-        <div className="absolute -left-40 -top-40 h-[520px] w-[520px] rounded-full bg-[oklch(0.88_0.23_145/10%)] blur-3xl" />
-        <div className="absolute -right-56 -top-44 h-[560px] w-[560px] rounded-full bg-[oklch(0.9_0.08_225/9%)] blur-3xl" />
+      {/* Soft brand wash (kept subtle; the texture is the point). */}
+      <div className="absolute inset-0 opacity-[0.45] [mask-image:radial-gradient(55%_55%_at_50%_10%,#000_22%,transparent_78%)]">
+        <div className="absolute -left-44 -top-48 h-[560px] w-[560px] rounded-full bg-[oklch(0.88_0.23_145/9%)] blur-3xl" />
+        <div className="absolute -right-56 -top-52 h-[620px] w-[620px] rounded-full bg-[oklch(0.9_0.08_225/8%)] blur-3xl" />
+        <div className="absolute -top-40 left-1/2 h-[560px] w-[560px] -translate-x-1/2 rounded-full bg-[oklch(0.67_0.21_330/7%)] blur-3xl" />
       </div>
 
-      <div className="absolute inset-0 pixel-grid opacity-[0.33] dark:opacity-[0.26]" />
+      {/* Very subtle structure grid for “technical calm”. */}
+      <div className="absolute inset-0 pixel-grid opacity-[0.18] dark:opacity-[0.14]" />
 
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 h-full w-full opacity-[0.82] mix-blend-multiply dark:mix-blend-screen"
+        className="absolute inset-0 h-full w-full opacity-[0.78] mix-blend-multiply dark:mix-blend-screen"
       />
 
-      <div className="absolute inset-0 pixel-noise opacity-[0.18] dark:opacity-[0.14]" />
+      {/* Algorithmic grain: subtle, non-tiled texture (SVG turbulence). */}
+      <svg
+        className="absolute inset-0 h-full w-full opacity-[0.08] mix-blend-multiply dark:opacity-[0.07] dark:mix-blend-screen"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <filter id={grainId} x="0" y="0" width="100%" height="100%">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.85"
+            numOctaves={2}
+            seed={8}
+            stitchTiles="stitch"
+          />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+        <rect width="100%" height="100%" filter={`url(#${grainId})`} />
+      </svg>
     </div>
   );
 }
