@@ -7,6 +7,7 @@ export default function DemoPage() {
       profile={DEMO_PROFILE}
       blocks={DEMO_BLOCKS}
       linkMode="direct"
+      disableAnalytics
     />
   );
 }

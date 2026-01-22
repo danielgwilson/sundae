@@ -370,6 +370,7 @@ function SignupBlock({
           name="email"
           type="email"
           placeholder="you@email.com"
+          autoComplete="email"
           required
           className="h-11 rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_70%,transparent)] px-4 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] shadow-[inset_0_1px_0_color-mix(in_oklab,var(--creator-text)_18%,transparent)] transition-[border-color,box-shadow,background-color] duration-200 focus:bg-[color-mix(in_oklab,var(--creator-card)_82%,transparent)] focus:ring-4 focus:ring-[var(--creator-accent)]/15"
         />
@@ -420,18 +421,21 @@ function ContactBlock({
         <input
           name="name"
           placeholder="Name"
+          autoComplete="name"
           className="h-11 rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_70%,transparent)] px-4 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] shadow-[inset_0_1px_0_color-mix(in_oklab,var(--creator-text)_18%,transparent)] transition-[border-color,box-shadow,background-color] duration-200 focus:bg-[color-mix(in_oklab,var(--creator-card)_82%,transparent)] focus:ring-4 focus:ring-[var(--creator-accent)]/15"
         />
         <input
           name="email"
           type="email"
           placeholder="Email"
+          autoComplete="email"
           required
           className="h-11 rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_70%,transparent)] px-4 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] shadow-[inset_0_1px_0_color-mix(in_oklab,var(--creator-text)_18%,transparent)] transition-[border-color,box-shadow,background-color] duration-200 focus:bg-[color-mix(in_oklab,var(--creator-card)_82%,transparent)] focus:ring-4 focus:ring-[var(--creator-accent)]/15"
         />
         <textarea
           name="message"
           placeholder="Message"
+          autoComplete="off"
           required
           rows={4}
           className="min-h-[120px] resize-none rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_70%,transparent)] px-4 py-3 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] shadow-[inset_0_1px_0_color-mix(in_oklab,var(--creator-text)_18%,transparent)] transition-[border-color,box-shadow,background-color] duration-200 focus:bg-[color-mix(in_oklab,var(--creator-card)_82%,transparent)] focus:ring-4 focus:ring-[var(--creator-accent)]/15"
