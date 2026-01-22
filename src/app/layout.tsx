@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Fragment_Mono, Instrument_Sans, Unbounded } from "next/font/google";
 import { PixelCloudGrid } from "@/components/brand/pixel-cloud-grid";
@@ -37,6 +38,7 @@ export default function RootLayout({
       >
         <PixelCloudGrid />
         {children}
+        <Analytics />
       </body>
     </html>
   );
