@@ -317,7 +317,7 @@ export function PixelCloudGrid({ className }: { className?: string }) {
       </div>
 
       <HalftoneDotGradient
-        style={{ "--halftone-opacity": "0.105" } as React.CSSProperties}
+        style={{ "--halftone-opacity": "0.18" } as React.CSSProperties}
       />
 
       {/* Very subtle structure grid for “technical calm”. */}

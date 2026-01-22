@@ -54,15 +54,16 @@ export default async function Home() {
       </header>
 
       <main className="mx-auto max-w-6xl px-6 pb-24 pt-12">
-        <section className="relative isolate grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <section className="relative grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <HalftoneDotGradient
             variant="hero"
+            behavior="cursor"
             className="absolute -inset-x-24 -top-28 h-[680px]"
-            style={{ "--halftone-opacity": "0.26" } as CSSProperties}
+            style={{ "--halftone-opacity": "0.62" } as CSSProperties}
           />
 
           <div className="max-w-xl space-y-7">
-            <div className="brand-chip w-fit motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-700">
+            <div className="brand-chip w-fit">
               <span className="brand-mono text-[10px] uppercase tracking-[0.22em] text-foreground/70">
                 Pixel‑clean creator pages
               </span>
@@ -72,17 +73,17 @@ export default async function Home() {
               </span>
             </div>
 
-            <h1 className="brand-title text-5xl leading-[0.92] sm:text-6xl lg:text-7xl motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-3 motion-safe:duration-700 motion-safe:delay-150">
+            <h1 className="brand-title text-5xl leading-[0.92] sm:text-6xl lg:text-7xl">
               A link‑in‑bio that feels like a product — not a template.
             </h1>
 
-            <p className="brand-subtitle text-base text-muted-foreground sm:text-lg motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-3 motion-safe:duration-700 motion-safe:delay-250">
+            <p className="brand-subtitle text-base text-muted-foreground sm:text-lg">
               Sundae gives creators a page with real rhythm: sharp typography,
               clean blocks, and a quiet kind of confidence. Capture leads, track
               clicks, and ship updates in minutes.
             </p>
 
-            <div className="flex flex-wrap items-center gap-3 pt-2 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-700 motion-safe:delay-300">
+            <div className="flex flex-wrap items-center gap-3 pt-2">
               <a href={session?.user?.email ? "/app/editor" : "/signin"}>
                 <Button className="h-11 rounded-full px-7">Build yours</Button>
               </a>
@@ -93,7 +94,7 @@ export default async function Home() {
               </a>
             </div>
 
-            <div className="grid gap-3 pt-2 sm:grid-cols-3 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-700 motion-safe:delay-400">
+            <div className="grid gap-3 pt-2 sm:grid-cols-3">
               <Stat label="Blocks" value="8" />
               <Stat label="Leads" value="Built‑in" />
               <Stat label="Analytics" value="Clicks" />

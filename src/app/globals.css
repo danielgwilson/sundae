@@ -287,41 +287,19 @@
     }
   }
 
-  @keyframes halftone-drift {
-    0% {
-      -webkit-mask-position:
-        0 0,
-        18% 0%;
-      mask-position:
-        0 0,
-        18% 0%;
-    }
-    50% {
-      -webkit-mask-position:
-        0 0,
-        88% 14%;
-      mask-position:
-        0 0,
-        88% 14%;
-    }
-    100% {
-      -webkit-mask-position:
-        0 0,
-        32% 28%;
-      mask-position:
-        0 0,
-        32% 28%;
-    }
-  }
-
   .halftone-dot-gradient {
-    --halftone-step: 18px;
-    --halftone-dot: 1.05px;
-    --halftone-soft: 0.95px;
-    --halftone-opacity: 0.12;
+    --halftone-step: 20px;
+    --halftone-dot: 1.35px;
+    --halftone-soft: 1.05px;
+    --halftone-opacity: 0.18;
     --halftone-mask-size: 240% 240%;
+    --halftone-focus-x: 50%;
+    --halftone-focus-y: 12%;
+    --halftone-grid-x: 0px;
+    --halftone-grid-y: 0px;
+    --halftone-energy: 0;
 
-    opacity: var(--halftone-opacity);
+    opacity: calc(var(--halftone-opacity) * (1 + var(--halftone-energy) * 0.65));
     background-image:
       radial-gradient(
         780px 520px at 16% 18%,
@@ -358,8 +336,8 @@
       var(--halftone-step) var(--halftone-step),
       var(--halftone-mask-size);
     -webkit-mask-position:
-      0 0,
-      18% 0%;
+      var(--halftone-grid-x) var(--halftone-grid-y),
+      var(--halftone-focus-x) var(--halftone-focus-y);
 
     mask-image:
       radial-gradient(
@@ -378,21 +356,21 @@
       var(--halftone-step) var(--halftone-step),
       var(--halftone-mask-size);
     mask-position:
-      0 0,
-      18% 0%;
+      var(--halftone-grid-x) var(--halftone-grid-y),
+      var(--halftone-focus-x) var(--halftone-focus-y);
 
-    animation: halftone-drift 22s ease-in-out infinite;
     transform: translateZ(0);
     will-change: -webkit-mask-position, mask-position;
   }
 
   .halftone-dot-gradient--hero {
-    --halftone-step: 14px;
-    --halftone-dot: 1.35px;
-    --halftone-soft: 1.05px;
-    --halftone-opacity: 0.34;
+    --halftone-step: 16px;
+    --halftone-dot: 1.9px;
+    --halftone-soft: 1.35px;
+    --halftone-opacity: 0.52;
     --halftone-mask-size: 280% 280%;
-    filter: saturate(1.14) contrast(1.04);
+    filter: saturate(1.18) contrast(1.04);
+    mix-blend-mode: normal;
   }
 
   .dark .halftone-dot-gradient {
@@ -461,10 +439,6 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .halftone-dot-gradient {
-      animation: none;
-    }
-
     .pixel-grid,
     .creator-grid {
       animation: none;
