@@ -1,4 +1,4 @@
-# Progress (beacons-ai)
+# Progress (sundae)
 
 ## Now
 

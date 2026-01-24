@@ -1,4 +1,4 @@
-# Handoff (beacons-ai)
+# Handoff (sundae)
 
 ## Current state
 

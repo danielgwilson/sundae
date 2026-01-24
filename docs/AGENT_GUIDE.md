@@ -1,4 +1,4 @@
-# Agent Guide (beacons-ai)
+# Agent Guide (sundae)
 
 ## Session start
 

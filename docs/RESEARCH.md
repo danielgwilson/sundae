@@ -1,4 +1,4 @@
-# Research (beacons-ai)
+# Research (sundae)
 
 Goal: build a creator-focused “link in bio” + lightweight creator hub, inspired by Beacons + Linktree, for individual creators (no org/team features in v1), while keeping the data model extensible toward future teams/roles.
 
@@ -100,4 +100,3 @@ Given the repo already includes Next.js App Router, NextAuth (Google), and Drizz
 - `analytics_events` (page views + link clicks)
 
 This keeps the v1 UX single-user while allowing a future pivot to multi-editor roles without rewriting core tables.
-

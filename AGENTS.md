@@ -5,7 +5,7 @@ This repo is designed to be worked on by humans + coding agents. Optimize for **
 ## Project Links (keep updated)
 
 <!-- kit:project-links:start -->
-- GitHub: danielgwilson/beacons-ai
+- GitHub: danielgwilson/sundae
 - Vercel: gsl-is/sundae
 - Domain: sundae.to
 - App URL (prod): https://sundae.to

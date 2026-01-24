@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "name": "beacons-ai",
+  "name": "sundae",
   "template": "next-app+shadcn",
   "modules": ["auth-nextauth-google", "drizzle"],
   "createdAt": "2026-01-17T02:16:43.550Z",
@@ -8,8 +8,8 @@
     "tests": true
   },
   "links": {
-    "github": "danielgwilson/beacons-ai",
-    "vercel": "dgwto/beacons-ai",
+    "github": "danielgwilson/sundae",
+    "vercel": "gsl-is/sundae",
     "db": "Vercel Postgres (Neon) - TODO provision"
   }
 }
