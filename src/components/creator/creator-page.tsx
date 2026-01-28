@@ -478,6 +478,7 @@ export function CreatorPage({
   linkMode = "tracked",
   isOwner,
   layout = "default",
+  effects,
 }: {
   profile: Profile;
   blocks: BlockRow[];
@@ -488,28 +489,41 @@ export function CreatorPage({
   linkMode?: "tracked" | "direct";
   isOwner?: boolean;
   layout?: "default" | "showcase";
+  effects?: "full" | "minimal";
 }) {
   const showBadge = Boolean(showPreviewBadge && !hidePreviewBadge);
   const shouldTrack = !(disableAnalytics || showPreviewBadge);
   const showActionBar = Boolean(isOwner && !embed && !showPreviewBadge);
+  const effectsMode = effects ?? (embed ? "minimal" : "full");
   const hasBlocks = blocks.some((block) => block.enabled);
   const layoutPadding =
     layout === "showcase"
-      ? "px-2 py-7 sm:px-3 sm:py-8"
+      ? "px-0 py-6 sm:px-0 sm:py-7"
       : "px-6 py-12 sm:px-7 sm:py-14";
+  const canvasPadding = embed
+    ? "px-0 py-6 sm:px-0 sm:py-7"
+    : layoutPadding;
   const layoutWidth =
-    layout === "showcase" ? "max-w-[36rem]" : "max-w-[32rem]";
+    embed
+      ? "max-w-none"
+      : layout === "showcase"
+        ? "max-w-none"
+        : "max-w-[32rem]";
 
   return (
     <div
-      className={cn("creator-shell", !embed && "min-h-screen")}
+      className={cn(
+        "creator-shell",
+        effectsMode === "minimal" && "creator-shell--minimal",
+        !embed && "min-h-screen",
+      )}
       style={themeToStyle(profile.theme)}
       data-handle={profile.handle}
     >
       <div
         className={cn(
           "relative creator-canvas text-[var(--creator-text)]",
-          layoutPadding,
+          canvasPadding,
           embed ? "min-h-full" : "min-h-screen",
           showActionBar && "pb-24",
         )}
@@ -518,8 +532,12 @@ export function CreatorPage({
           className="absolute inset-0 -z-20"
           style={{ background: "var(--creator-bg)" }}
         />
-        <CreatorNoiseField className="-z-10" />
-        <div className="absolute inset-0 -z-10 creator-grid opacity-[0.22]" />
+        {effectsMode === "full" ? (
+          <>
+            <CreatorNoiseField className="-z-10" />
+            <div className="absolute inset-0 -z-10 creator-grid opacity-[0.22]" />
+          </>
+        ) : null}
 
         <div className={cn("mx-auto w-full space-y-6", layoutWidth)}>
           <header className="creator-hero">

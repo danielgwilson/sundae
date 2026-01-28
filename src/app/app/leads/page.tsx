@@ -24,7 +24,7 @@ export default async function LeadsPage() {
         </p>
       </div>
 
-      <Card className="p-6">
+      <Card className="studio-card p-6">
         {rows.length === 0 ? (
           <div className="text-sm text-muted-foreground">
             No leads yet. Add a signup or contact block to your page.

@@ -55,7 +55,7 @@ export function EditorShell({
 
 function TabBar({ tab, onChange }: { tab: Tab; onChange: (tab: Tab) => void }) {
   return (
-    <div className="relative rounded-full border border-black/10 bg-background/70 p-1 shadow-[0_18px_50px_-40px_oklch(0.17_0.02_265/38%)] backdrop-blur">
+    <div className="studio-tabbar relative">
       <div className="grid grid-cols-2 gap-1">
         <TabButton active={tab === "build"} onClick={() => onChange("build")}>
           Build

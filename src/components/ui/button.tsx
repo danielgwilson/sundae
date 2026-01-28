@@ -32,8 +32,8 @@ const buttonVariants = cva(
           "focus-visible:ring-destructive/35",
         ].join(" "),
         outline: [
-          "border bg-background/60 text-foreground shadow-sm backdrop-blur",
-          "hover:-translate-y-0.5 hover:bg-background/80 hover:shadow-[0_14px_34px_-22px_oklch(0.17_0.02_265/35%)]",
+          "border bg-background text-foreground shadow-sm",
+          "hover:-translate-y-0.5 hover:bg-background/95 hover:shadow-[0_14px_34px_-22px_oklch(0.17_0.02_265/35%)]",
           "active:translate-y-0",
         ].join(" "),
         secondary: [

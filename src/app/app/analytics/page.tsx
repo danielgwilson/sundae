@@ -67,7 +67,7 @@ export default async function AnalyticsPage() {
         </p>
       </div>
 
-      <Card className="p-6">
+      <Card className="studio-card p-6">
         <div className="text-sm font-medium">Daily</div>
         <div className="mt-4 grid gap-3">
           {days.length === 0 ? (
@@ -100,7 +100,7 @@ export default async function AnalyticsPage() {
         </div>
       </Card>
 
-      <Card className="p-6">
+      <Card className="studio-card p-6">
         <div className="flex items-center justify-between gap-4">
           <div className="text-sm font-medium">Top destinations</div>
           <a href={`/${profile.handle}`}>

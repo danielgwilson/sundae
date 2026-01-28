@@ -45,7 +45,7 @@ export default async function SettingsPage() {
           </p>
         </div>
 
-        <Card className="p-6">
+        <Card className="studio-card p-6">
           <div className="text-sm font-medium">Profile</div>
           <Separator className="my-4" />
           <form className="grid gap-4" action={updateProfile}>
@@ -80,7 +80,7 @@ export default async function SettingsPage() {
           </form>
         </Card>
 
-        <Card className="p-6">
+        <Card className="studio-card p-6">
           <div className="text-sm font-medium">Handle</div>
           <Separator className="my-4" />
           <form className="grid gap-4" action={updateHandle}>
@@ -98,7 +98,7 @@ export default async function SettingsPage() {
           </form>
         </Card>
 
-        <Card className="p-6">
+        <Card className="studio-card p-6">
           <div className="text-sm font-medium">Theme</div>
           <Separator className="my-4" />
           <div className="grid gap-3">
@@ -211,6 +211,7 @@ export default async function SettingsPage() {
       <div className="brand-screen sticky top-24 h-fit overflow-hidden">
         <CreatorPage
           showPreviewBadge
+          effects="minimal"
           profile={{
             id: profile.id,
             handle: profile.handle,

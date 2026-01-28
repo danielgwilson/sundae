@@ -71,15 +71,14 @@ export function AppNav({ className }: { className?: string }) {
       className={cn(
         [
           "relative flex flex-wrap items-center gap-1",
-          "rounded-full border bg-background/60 p-1 shadow-sm backdrop-blur",
-          "overflow-hidden",
+          "studio-nav overflow-hidden",
         ].join(" "),
         className,
       )}
     >
       <div
         aria-hidden="true"
-        className="absolute inset-y-1 left-1 rounded-full bg-primary/90 shadow-[0_10px_24px_-18px_oklch(0.17_0.02_265/40%)] transition-[transform,width,opacity] duration-300 ease-out"
+        className="studio-nav-indicator absolute inset-y-1 left-1 rounded-full transition-[transform,width,opacity] duration-300 ease-out"
         style={{
           width: `${Math.max(0, indicator.width)}px`,
           transform: `translateX(${indicator.left}px)`,

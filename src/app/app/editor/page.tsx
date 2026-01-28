@@ -134,7 +134,7 @@ export default async function EditorPage() {
       </div>
 
       {pageBlocks.length === 0 ? (
-        <Card className="p-6">
+        <Card className="studio-card p-6">
           <div className="font-medium">No blocks yet</div>
           <div className="mt-1 text-sm text-muted-foreground">
             Add a block above to start building your page.
@@ -198,10 +198,7 @@ export default async function EditorPage() {
           );
 
           return (
-            <Card
-              key={block.id}
-              className="p-6 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-[0_24px_60px_-44px_oklch(0.17_0.02_265/45%)]"
-            >
+            <Card key={block.id} className="studio-card studio-card--interactive p-6">
               {header}
 
               <form
@@ -466,6 +463,7 @@ export default async function EditorPage() {
       <CreatorPage
         showPreviewBadge
         embed
+        effects="minimal"
         profile={{
           id: profile.id,
           handle: profile.handle,
