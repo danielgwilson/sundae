@@ -455,7 +455,8 @@ export default async function EditorPage() {
     <div
       className={[
         "brand-screen",
-        "overflow-auto overscroll-contain",
+        "brand-screen--preview",
+        "pointer-events-none select-none",
         "h-[72svh] sm:h-[76svh]",
         "lg:sticky lg:top-24 lg:h-auto lg:max-h-[calc(100vh-10rem)]",
       ].join(" ")}

@@ -440,6 +440,17 @@
     mix-blend-mode: multiply;
   }
 
+  .brand-screen--preview {
+    background: transparent;
+    border-color: color-mix(in oklab, var(--foreground) 12%, transparent);
+    box-shadow: 0 26px 70px -56px
+      color-mix(in oklab, var(--foreground) 45%, transparent);
+  }
+
+  .brand-screen--preview::after {
+    display: none;
+  }
+
   .brand-ink-panel {
     @apply relative overflow-hidden rounded-3xl border border-white/10;
     background:
@@ -651,7 +662,7 @@
     border-radius: 2.5rem;
     border: 1px solid
       color-mix(in oklab, var(--creator-text) 14%, transparent);
-    background: color-mix(in oklab, var(--creator-card) 86%, transparent);
+    background: var(--creator-card);
     padding: 1.75rem 1.5rem;
     text-align: center;
     box-shadow: 0 28px 70px -58px
@@ -718,7 +729,7 @@
     border-radius: 999px;
     border: 1px solid
       color-mix(in oklab, var(--creator-text) 14%, transparent);
-    background: color-mix(in oklab, var(--creator-card) 80%, transparent);
+    background: color-mix(in oklab, var(--creator-card) 92%, transparent);
     padding: 0.4rem 0.85rem;
     font-size: 0.7rem;
     letter-spacing: 0.2em;
@@ -733,7 +744,7 @@
     border-radius: 1.75rem;
     border: 1px solid
       color-mix(in oklab, var(--creator-text) 14%, transparent);
-    background: color-mix(in oklab, var(--creator-card) 84%, transparent);
+    background: var(--creator-card);
     box-shadow: 0 20px 52px -46px
       color-mix(in oklab, var(--creator-text) 36%, transparent);
     backdrop-filter: blur(14px);
@@ -787,7 +798,7 @@
     border-radius: 1.1rem;
     border: 1px solid
       color-mix(in oklab, var(--creator-text) 16%, transparent);
-    background: color-mix(in oklab, var(--creator-card) 90%, transparent);
+    background: color-mix(in oklab, var(--creator-card) 98%, transparent);
     color: var(--creator-text);
     box-shadow: inset 0 1px 0
       color-mix(in oklab, var(--creator-text) 10%, transparent);
@@ -801,7 +812,7 @@
     border-radius: 1.1rem;
     border: 1px solid
       color-mix(in oklab, var(--creator-text) 16%, transparent);
-    background: color-mix(in oklab, var(--creator-card) 88%, transparent);
+    background: color-mix(in oklab, var(--creator-card) 98%, transparent);
     color: var(--creator-text);
     box-shadow: 0 8px 24px -20px
       color-mix(in oklab, var(--creator-text) 30%, transparent);
@@ -819,7 +830,7 @@
     border-radius: 999px;
     border: 1px solid
       color-mix(in oklab, var(--creator-text) 14%, transparent);
-    background: color-mix(in oklab, var(--creator-card) 86%, transparent);
+    background: color-mix(in oklab, var(--creator-card) 96%, transparent);
     padding: 0.5rem 0.85rem;
     font-size: 0.85rem;
     font-weight: 500;
@@ -956,21 +967,50 @@
   }
 
   .studio-shell {
-    background: linear-gradient(180deg, #ffffff 0%, #f7f8fb 100%);
+    position: relative;
     color: var(--foreground);
+    background:
+      radial-gradient(
+        780px 520px at 8% 6%,
+        color-mix(in oklab, var(--primary) 12%, transparent),
+        transparent 62%
+      ),
+      radial-gradient(
+        720px 520px at 92% 8%,
+        color-mix(in oklab, var(--accent) 16%, transparent),
+        transparent 64%
+      ),
+      linear-gradient(180deg, #ffffff 0%, #f6f7fb 100%);
   }
 
   .studio-header {
     background: #ffffff;
     border-bottom: 1px solid var(--border);
+    box-shadow: 0 12px 30px -26px
+      color-mix(in oklab, var(--foreground) 24%, transparent);
   }
 
   .studio-card {
+    position: relative;
+    overflow: hidden;
     border-radius: 1.5rem;
     border: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
     background: #ffffff;
     box-shadow: 0 18px 50px -40px
       color-mix(in oklab, var(--foreground) 35%, transparent);
+  }
+
+  .studio-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      80% 60% at 10% 0%,
+      color-mix(in oklab, var(--primary) 14%, transparent),
+      transparent 60%
+    );
+    opacity: 0.35;
+    pointer-events: none;
   }
 
   .studio-shell .brand-card {

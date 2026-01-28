@@ -208,7 +208,7 @@ export default async function SettingsPage() {
         </Card>
       </div>
 
-      <div className="brand-screen sticky top-24 h-fit overflow-hidden">
+      <div className="brand-screen brand-screen--preview sticky top-24 h-fit overflow-hidden">
         <CreatorPage
           showPreviewBadge
           effects="minimal"

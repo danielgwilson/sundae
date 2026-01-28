@@ -46,27 +46,39 @@ export default async function AppHomePage() {
 
       <div className="grid gap-4 sm:grid-cols-3">
         <Card className="studio-card studio-card--interactive p-6">
-          <div className="text-sm text-muted-foreground">Blocks</div>
-          <div className="mt-1 text-3xl font-semibold">{blockCount ?? 0}</div>
-          <div className="mt-4 text-sm">
+          <div className="brand-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
+            Blocks
+          </div>
+          <div className="mt-3 text-4xl font-semibold tracking-tight">
+            {blockCount ?? 0}
+          </div>
+          <div className="mt-5 text-sm">
             <a className="underline underline-offset-4" href="/app/editor">
               Edit blocks
             </a>
           </div>
         </Card>
         <Card className="studio-card studio-card--interactive p-6">
-          <div className="text-sm text-muted-foreground">Views (7d)</div>
-          <div className="mt-1 text-3xl font-semibold">{views7d ?? 0}</div>
-          <div className="mt-4 text-sm">
+          <div className="brand-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
+            Views (7d)
+          </div>
+          <div className="mt-3 text-4xl font-semibold tracking-tight">
+            {views7d ?? 0}
+          </div>
+          <div className="mt-5 text-sm">
             <a className="underline underline-offset-4" href="/app/analytics">
               View analytics
             </a>
           </div>
         </Card>
         <Card className="studio-card studio-card--interactive p-6">
-          <div className="text-sm text-muted-foreground">Clicks (7d)</div>
-          <div className="mt-1 text-3xl font-semibold">{clicks7d ?? 0}</div>
-          <div className="mt-4 text-sm">
+          <div className="brand-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
+            Clicks (7d)
+          </div>
+          <div className="mt-3 text-4xl font-semibold tracking-tight">
+            {clicks7d ?? 0}
+          </div>
+          <div className="mt-5 text-sm">
             <a className="underline underline-offset-4" href="/app/analytics">
               View analytics
             </a>

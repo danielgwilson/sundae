@@ -21,10 +21,10 @@ export const THEME_PRESETS: Record<
     name: "Paper Grid",
     theme: {
       background:
-        "radial-gradient(860px 560px at 8% 12%, oklch(0.76 0.14 245 / 18%), transparent 62%), radial-gradient(720px 520px at 92% 10%, oklch(0.86 0.12 80 / 14%), transparent 62%), radial-gradient(640px 520px at 72% 88%, oklch(0.7 0.12 280 / 12%), transparent 60%), linear-gradient(180deg, oklch(1 0 0), oklch(0.97 0 0))",
-      cardBackground: "oklch(1 0 0 / 72%)",
-      text: "oklch(0.17 0.02 265)",
-      mutedText: "oklch(0.49 0.02 265)",
+        "radial-gradient(860px 560px at 10% 8%, oklch(0.86 0.08 245 / 26%), transparent 62%), radial-gradient(720px 520px at 88% 10%, oklch(0.86 0.12 80 / 18%), transparent 64%), radial-gradient(680px 520px at 72% 86%, oklch(0.74 0.1 300 / 12%), transparent 60%), linear-gradient(180deg, oklch(0.995 0.005 255), oklch(0.965 0.01 255))",
+      cardBackground: "oklch(0.99 0.01 250 / 96%)",
+      text: "oklch(0.18 0.02 265)",
+      mutedText: "oklch(0.46 0.02 265)",
       buttonBackground: "oklch(0.56 0.2 248)",
       buttonText: "oklch(0.98 0 0)",
       accent: "oklch(0.86 0.12 80)",
@@ -34,24 +34,24 @@ export const THEME_PRESETS: Record<
     name: "Midnight Neon",
     theme: {
       background:
-        "radial-gradient(900px 560px at 16% 12%, oklch(0.48 0.18 250 / 20%), transparent 60%), radial-gradient(760px 520px at 88% 18%, oklch(0.7 0.2 320 / 16%), transparent 62%), linear-gradient(180deg, oklch(0.14 0.02 265), oklch(0.1 0.02 265))",
-      cardBackground: "oklch(1 0 0 / 10%)",
+        "radial-gradient(900px 560px at 16% 10%, oklch(0.6 0.2 285 / 18%), transparent 60%), radial-gradient(760px 520px at 86% 16%, oklch(0.62 0.22 255 / 20%), transparent 62%), linear-gradient(180deg, oklch(0.12 0.02 265), oklch(0.09 0.02 265))",
+      cardBackground: "oklch(0.24 0.02 265 / 92%)",
       text: "oklch(0.98 0 0)",
       mutedText: "oklch(0.98 0 0 / 72%)",
-      buttonBackground: "oklch(0.62 0.22 255)",
+      buttonBackground: "oklch(0.64 0.22 255)",
       buttonText: "oklch(0.98 0 0)",
-      accent: "oklch(0.72 0.18 310)",
+      accent: "oklch(0.76 0.2 320)",
     },
   },
   "mint-chip": {
     name: "Lime Fog",
     theme: {
       background:
-        "radial-gradient(860px 560px at 12% 18%, oklch(0.84 0.08 30 / 18%), transparent 62%), radial-gradient(720px 520px at 88% 18%, oklch(0.78 0.12 210 / 14%), transparent 64%), linear-gradient(180deg, oklch(1 0 0), oklch(0.97 0 0))",
-      cardBackground: "oklch(1 0 0 / 70%)",
-      text: "oklch(0.17 0.02 265)",
-      mutedText: "oklch(0.49 0.02 265)",
-      buttonBackground: "oklch(0.6 0.2 20)",
+        "radial-gradient(860px 560px at 12% 18%, oklch(0.86 0.06 30 / 18%), transparent 62%), radial-gradient(720px 520px at 88% 18%, oklch(0.8 0.1 210 / 16%), transparent 64%), linear-gradient(180deg, oklch(0.995 0.005 255), oklch(0.965 0.01 255))",
+      cardBackground: "oklch(0.99 0.01 240 / 94%)",
+      text: "oklch(0.18 0.02 265)",
+      mutedText: "oklch(0.46 0.02 265)",
+      buttonBackground: "oklch(0.62 0.18 30)",
       buttonText: "oklch(0.98 0 0)",
       accent: "oklch(0.72 0.14 210)",
     },
@@ -60,11 +60,11 @@ export const THEME_PRESETS: Record<
     name: "Ink Soda",
     theme: {
       background:
-        "radial-gradient(900px 560px at 16% 14%, oklch(0.65 0.16 250 / 22%), transparent 62%), radial-gradient(760px 520px at 88% 20%, oklch(0.75 0.18 80 / 12%), transparent 64%), linear-gradient(180deg, oklch(0.13 0.02 265), oklch(0.09 0.02 265))",
-      cardBackground: "oklch(1 0 0 / 12%)",
+        "radial-gradient(900px 560px at 16% 14%, oklch(0.62 0.18 245 / 22%), transparent 62%), radial-gradient(760px 520px at 86% 22%, oklch(0.76 0.16 60 / 12%), transparent 64%), linear-gradient(180deg, oklch(0.11 0.02 265), oklch(0.08 0.02 265))",
+      cardBackground: "oklch(0.22 0.02 265 / 92%)",
       text: "oklch(0.98 0 0)",
       mutedText: "oklch(0.98 0 0 / 72%)",
-      buttonBackground: "oklch(0.68 0.2 245)",
+      buttonBackground: "oklch(0.66 0.2 245)",
       buttonText: "oklch(0.98 0 0)",
       accent: "oklch(0.84 0.12 80)",
     },
