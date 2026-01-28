@@ -135,6 +135,7 @@ export default async function Home() {
                       blocks={DEMO_BLOCKS}
                       linkMode="direct"
                       disableAnalytics
+                      layout="showcase"
                     />
                   </div>
                 </div>

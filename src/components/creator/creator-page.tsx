@@ -91,16 +91,7 @@ function BlockShell({
 }) {
   return (
     <div
-      className={cn(
-        [
-          "group relative overflow-hidden rounded-3xl",
-          "border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)]",
-          "bg-[var(--creator-card)] px-4 py-3",
-          "shadow-[0_22px_56px_-44px_color-mix(in_oklab,var(--creator-text)_35%,transparent)]",
-          "backdrop-blur",
-        ].join(" "),
-        className,
-      )}
+      className={cn("creator-surface px-5 py-4", className)}
     >
       {children}
     </div>
@@ -119,35 +110,27 @@ function LinkBlock({ blockId, data }: { blockId: string; data: unknown }) {
       href={href}
       className={cn(
         [
-          "group relative block overflow-hidden rounded-3xl px-4 py-3 backdrop-blur",
-          "border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)]",
-          "bg-[var(--creator-card)]",
-          "shadow-[0_22px_56px_-44px_color-mix(in_oklab,var(--creator-text)_35%,transparent)]",
-          "transition-[transform,box-shadow,background-color] duration-200",
-          "hover:-translate-y-0.5 hover:shadow-[0_30px_72px_-50px_color-mix(in_oklab,var(--creator-text)_55%,transparent)]",
-          "active:translate-y-0",
+          "creator-surface creator-surface--interactive",
+          "flex items-center justify-between gap-4 px-5 py-4",
         ].join(" "),
       )}
     >
-      <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-        <div className="absolute -left-24 -top-20 h-52 w-52 rounded-full bg-[var(--creator-accent)]/22 blur-3xl" />
-        <div className="absolute -bottom-28 -right-28 h-64 w-64 rounded-full bg-[var(--creator-btn-bg)]/22 blur-3xl" />
-      </div>
-      <div className="relative flex items-center justify-between gap-3">
+      <div className="flex min-w-0 items-center gap-3">
+        <span className="creator-icon-badge">
+          <LinkIcon className="h-4 w-4" />
+        </span>
         <div className="min-w-0">
-          <div className="truncate font-semibold tracking-tight text-[var(--creator-text)]">
+          <div className="truncate text-base font-semibold tracking-tight text-[var(--creator-text)]">
             {title || "Link"}
           </div>
-          {subtitle ? (
-            <div className="truncate text-sm text-[var(--creator-muted)]">
-              {subtitle}
-            </div>
-          ) : null}
+          <div className="mt-1 truncate text-xs uppercase tracking-[0.22em] text-[var(--creator-muted)]">
+            {subtitle || url}
+          </div>
         </div>
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_80%,transparent)] text-[var(--creator-text)] shadow-sm transition-transform duration-200 group-hover:-translate-y-0.5">
-          <ArrowUpRight className="h-4 w-4" />
-        </span>
       </div>
+      <span className="creator-arrow">
+        <ArrowUpRight className="h-4 w-4" />
+      </span>
       <div className="sr-only">{url}</div>
     </a>
   );
@@ -167,35 +150,27 @@ function DirectLinkBlock({ data }: { data: unknown }) {
       rel="noreferrer"
       className={cn(
         [
-          "group relative block overflow-hidden rounded-3xl px-4 py-3 backdrop-blur",
-          "border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)]",
-          "bg-[var(--creator-card)]",
-          "shadow-[0_22px_56px_-44px_color-mix(in_oklab,var(--creator-text)_35%,transparent)]",
-          "transition-[transform,box-shadow,background-color] duration-200",
-          "hover:-translate-y-0.5 hover:shadow-[0_30px_72px_-50px_color-mix(in_oklab,var(--creator-text)_55%,transparent)]",
-          "active:translate-y-0",
+          "creator-surface creator-surface--interactive",
+          "flex items-center justify-between gap-4 px-5 py-4",
         ].join(" "),
       )}
     >
-      <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-        <div className="absolute -left-24 -top-20 h-52 w-52 rounded-full bg-[var(--creator-accent)]/22 blur-3xl" />
-        <div className="absolute -bottom-28 -right-28 h-64 w-64 rounded-full bg-[var(--creator-btn-bg)]/22 blur-3xl" />
-      </div>
-      <div className="relative flex items-center justify-between gap-3">
+      <div className="flex min-w-0 items-center gap-3">
+        <span className="creator-icon-badge">
+          <LinkIcon className="h-4 w-4" />
+        </span>
         <div className="min-w-0">
-          <div className="truncate font-semibold tracking-tight text-[var(--creator-text)]">
+          <div className="truncate text-base font-semibold tracking-tight text-[var(--creator-text)]">
             {title || "Link"}
           </div>
-          {subtitle ? (
-            <div className="truncate text-sm text-[var(--creator-muted)]">
-              {subtitle}
-            </div>
-          ) : null}
+          <div className="mt-1 truncate text-xs uppercase tracking-[0.22em] text-[var(--creator-muted)]">
+            {subtitle || url}
+          </div>
         </div>
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_80%,transparent)] text-[var(--creator-text)] shadow-sm transition-transform duration-200 group-hover:-translate-y-0.5">
-          <ArrowUpRight className="h-4 w-4" />
-        </span>
       </div>
+      <span className="creator-arrow">
+        <ArrowUpRight className="h-4 w-4" />
+      </span>
       <div className="sr-only">{url}</div>
     </a>
   );
@@ -230,7 +205,7 @@ function ImageBlock({ data }: { data: unknown }) {
   const href = safeString(obj.href);
 
   const image = (
-    <div className="overflow-hidden rounded-3xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[var(--creator-card)] shadow-[0_22px_56px_-44px_color-mix(in_oklab,var(--creator-text)_35%,transparent)]">
+    <div className="creator-surface overflow-hidden">
       <div className="relative aspect-[16/10] w-full">
         <Image src={url} alt={alt} fill className="object-cover" />
       </div>
@@ -266,7 +241,7 @@ function EmbedBlock({ data }: { data: unknown }) {
   }
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[var(--creator-card)] shadow-[0_22px_56px_-44px_color-mix(in_oklab,var(--creator-text)_35%,transparent)]">
+    <div className="creator-surface overflow-hidden">
       <div className="relative aspect-video">
         <iframe
           className="absolute inset-0 h-full w-full"
@@ -295,23 +270,33 @@ function SocialBlock({ data }: { data: unknown }) {
   if (normalized.length === 0) return null;
 
   return (
-    <BlockShell className="flex flex-wrap items-center justify-center gap-2">
-      {normalized.map((l) => (
-        <a
-          key={`${l.platform}-${l.url}`}
-          href={l.url}
-          target="_blank"
-          rel="noreferrer"
-          className="group inline-flex items-center gap-2 rounded-full border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_70%,transparent)] px-3 py-2 text-sm shadow-sm backdrop-blur transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-[color-mix(in_oklab,var(--creator-card)_85%,transparent)]"
-        >
-          <span className="grid h-8 w-8 place-items-center rounded-full bg-[var(--creator-accent)]/16 text-[var(--creator-text)] shadow-[inset_0_1px_0_color-mix(in_oklab,var(--creator-text)_18%,transparent)]">
-            <SocialIcon platform={l.platform} />
-          </span>
-          <span className="capitalize text-[var(--creator-text)]">
-            {l.platform}
-          </span>
-        </a>
-      ))}
+    <BlockShell className="space-y-3">
+      <div className="flex items-center justify-between">
+        <div className="text-xs uppercase tracking-[0.22em] text-[var(--creator-muted)]">
+          Socials
+        </div>
+        <div className="text-xs text-[var(--creator-muted)]">
+          Tap to follow
+        </div>
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {normalized.map((l) => (
+          <a
+            key={`${l.platform}-${l.url}`}
+            href={l.url}
+            target="_blank"
+            rel="noreferrer"
+            className="creator-pill"
+          >
+            <span className="creator-pill-icon">
+              <SocialIcon platform={l.platform} />
+            </span>
+            <span className="capitalize text-[var(--creator-text)]">
+              {l.platform}
+            </span>
+          </a>
+        ))}
+      </div>
     </BlockShell>
   );
 }
@@ -327,7 +312,7 @@ function SupportBlock({ data }: { data: unknown }) {
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="block rounded-3xl bg-[var(--creator-btn-bg)] px-4 py-3 text-center font-semibold tracking-tight text-[var(--creator-btn-text)] shadow-[0_22px_56px_-44px_color-mix(in_oklab,var(--creator-btn-bg)_55%,transparent)] transition-[transform,box-shadow,filter] duration-200 hover:-translate-y-0.5 hover:shadow-[0_30px_72px_-50px_color-mix(in_oklab,var(--creator-btn-bg)_65%,transparent)] active:translate-y-0"
+      className="creator-cta"
     >
       {title}
     </a>
@@ -346,9 +331,9 @@ function SignupBlock({
   const description = safeString(obj.description);
 
   return (
-    <BlockShell className="p-4">
+    <BlockShell className="p-5">
       <div className="space-y-1">
-        <div className="font-semibold tracking-tight">{title}</div>
+        <div className="text-base font-semibold tracking-tight">{title}</div>
         {description ? (
           <div className="text-sm text-[var(--creator-muted)]">
             {description}
@@ -373,11 +358,11 @@ function SignupBlock({
           placeholder="you@email.com"
           autoComplete="email"
           required
-          className="h-11 rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_70%,transparent)] px-4 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] shadow-[inset_0_1px_0_color-mix(in_oklab,var(--creator-text)_18%,transparent)] transition-[border-color,box-shadow,background-color] duration-200 focus:bg-[color-mix(in_oklab,var(--creator-card)_82%,transparent)] focus:ring-4 focus:ring-[var(--creator-accent)]/15"
+          className="creator-input"
         />
         <button
           type="submit"
-          className="h-11 w-full rounded-2xl bg-[var(--creator-btn-bg)] px-4 text-sm font-semibold text-[var(--creator-btn-text)] shadow-[0_18px_46px_-36px_color-mix(in_oklab,var(--creator-btn-bg)_55%,transparent)] transition-[transform,box-shadow,filter] duration-200 hover:-translate-y-0.5 hover:shadow-[0_26px_64px_-46px_color-mix(in_oklab,var(--creator-btn-bg)_65%,transparent)] active:translate-y-0"
+          className="creator-cta h-11 text-sm"
         >
           Subscribe
         </button>
@@ -398,9 +383,9 @@ function ContactBlock({
   const description = safeString(obj.description);
 
   return (
-    <BlockShell className="p-4">
+    <BlockShell className="p-5">
       <div className="space-y-1">
-        <div className="font-semibold tracking-tight">{title}</div>
+        <div className="text-base font-semibold tracking-tight">{title}</div>
         {description ? (
           <div className="text-sm text-[var(--creator-muted)]">
             {description}
@@ -423,7 +408,7 @@ function ContactBlock({
           name="name"
           placeholder="Name"
           autoComplete="name"
-          className="h-11 rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_70%,transparent)] px-4 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] shadow-[inset_0_1px_0_color-mix(in_oklab,var(--creator-text)_18%,transparent)] transition-[border-color,box-shadow,background-color] duration-200 focus:bg-[color-mix(in_oklab,var(--creator-card)_82%,transparent)] focus:ring-4 focus:ring-[var(--creator-accent)]/15"
+          className="creator-input"
         />
         <input
           name="email"
@@ -431,7 +416,7 @@ function ContactBlock({
           placeholder="Email"
           autoComplete="email"
           required
-          className="h-11 rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_70%,transparent)] px-4 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] shadow-[inset_0_1px_0_color-mix(in_oklab,var(--creator-text)_18%,transparent)] transition-[border-color,box-shadow,background-color] duration-200 focus:bg-[color-mix(in_oklab,var(--creator-card)_82%,transparent)] focus:ring-4 focus:ring-[var(--creator-accent)]/15"
+          className="creator-input"
         />
         <textarea
           name="message"
@@ -439,11 +424,11 @@ function ContactBlock({
           autoComplete="off"
           required
           rows={4}
-          className="min-h-[120px] resize-none rounded-2xl border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_70%,transparent)] px-4 py-3 text-sm text-[var(--creator-text)] outline-none placeholder:text-[var(--creator-muted)] shadow-[inset_0_1px_0_color-mix(in_oklab,var(--creator-text)_18%,transparent)] transition-[border-color,box-shadow,background-color] duration-200 focus:bg-[color-mix(in_oklab,var(--creator-card)_82%,transparent)] focus:ring-4 focus:ring-[var(--creator-accent)]/15"
+          className="creator-input min-h-[120px] resize-none py-3"
         />
         <button
           type="submit"
-          className="h-11 w-full rounded-2xl bg-[var(--creator-btn-bg)] px-4 text-sm font-semibold text-[var(--creator-btn-text)] shadow-[0_18px_46px_-36px_color-mix(in_oklab,var(--creator-btn-bg)_55%,transparent)] transition-[transform,box-shadow,filter] duration-200 hover:-translate-y-0.5 hover:shadow-[0_26px_64px_-46px_color-mix(in_oklab,var(--creator-btn-bg)_65%,transparent)] active:translate-y-0"
+          className="creator-cta h-11 text-sm"
         >
           Send
         </button>
@@ -492,6 +477,7 @@ export function CreatorPage({
   embed,
   linkMode = "tracked",
   isOwner,
+  layout = "default",
 }: {
   profile: Profile;
   blocks: BlockRow[];
@@ -501,20 +487,29 @@ export function CreatorPage({
   embed?: boolean;
   linkMode?: "tracked" | "direct";
   isOwner?: boolean;
+  layout?: "default" | "showcase";
 }) {
   const showBadge = Boolean(showPreviewBadge && !hidePreviewBadge);
   const shouldTrack = !(disableAnalytics || showPreviewBadge);
   const showActionBar = Boolean(isOwner && !embed && !showPreviewBadge);
+  const hasBlocks = blocks.some((block) => block.enabled);
+  const layoutPadding =
+    layout === "showcase"
+      ? "px-2 py-7 sm:px-3 sm:py-8"
+      : "px-6 py-12 sm:px-7 sm:py-14";
+  const layoutWidth =
+    layout === "showcase" ? "max-w-[36rem]" : "max-w-[32rem]";
 
   return (
     <div
-      className={cn(!embed && "min-h-screen")}
+      className={cn("creator-shell", !embed && "min-h-screen")}
       style={themeToStyle(profile.theme)}
       data-handle={profile.handle}
     >
       <div
         className={cn(
-          "relative px-5 py-10 text-[var(--creator-text)]",
+          "relative creator-canvas text-[var(--creator-text)]",
+          layoutPadding,
           embed ? "min-h-full" : "min-h-screen",
           showActionBar && "pb-24",
         )}
@@ -526,15 +521,15 @@ export function CreatorPage({
         <CreatorNoiseField className="-z-10" />
         <div className="absolute inset-0 -z-10 creator-grid opacity-[0.22]" />
 
-        <div className="mx-auto w-full max-w-md space-y-6">
-          <header className="flex flex-col items-center text-center">
+        <div className={cn("mx-auto w-full space-y-6", layoutWidth)}>
+          <header className="creator-hero">
             {showBadge ? (
-              <div className="mb-3 inline-flex items-center rounded-full border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_80%,transparent)] px-3 py-1 text-xs text-[var(--creator-muted)] shadow-sm backdrop-blur">
+              <div className="mb-3 inline-flex items-center rounded-full border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_85%,transparent)] px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-[var(--creator-muted)] shadow-sm backdrop-blur">
                 Preview
               </div>
             ) : null}
             {profile.avatarUrl ? (
-              <div className="relative h-20 w-20 overflow-hidden rounded-full border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[var(--creator-card)] shadow-[0_18px_46px_-36px_color-mix(in_oklab,var(--creator-text)_35%,transparent)]">
+              <div className="creator-avatar-shell">
                 <Image
                   src={profile.avatarUrl}
                   alt={profile.displayName}
@@ -543,22 +538,29 @@ export function CreatorPage({
                 />
               </div>
             ) : null}
-            <h1 className="mt-4 text-2xl font-semibold tracking-tight">
+            <h1 className="mt-4 text-2xl font-semibold tracking-tight sm:text-3xl">
               {profile.displayName}
             </h1>
             {profile.bio ? (
-              <p className="mt-1 max-w-sm text-sm text-[var(--creator-muted)]">
+              <p className="mt-2 max-w-sm text-sm text-[var(--creator-muted)]">
                 {profile.bio}
               </p>
             ) : null}
-            <div className="mt-3 flex items-center gap-2 text-xs text-[var(--creator-muted)]">
-              <span className="rounded-full border border-[color-mix(in_oklab,var(--creator-text)_14%,transparent)] bg-[color-mix(in_oklab,var(--creator-card)_72%,transparent)] px-3 py-1 shadow-sm backdrop-blur">
+            <div className="mt-4 flex items-center justify-center gap-2 text-xs text-[var(--creator-muted)]">
+              <span className="creator-handle">
                 @{profile.handle}
               </span>
             </div>
           </header>
 
-          <div className="grid gap-3">
+          {hasBlocks ? (
+            <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-[var(--creator-muted)]">
+              <span>Links</span>
+              <span className="h-px flex-1 bg-[color-mix(in_oklab,var(--creator-text)_12%,transparent)]" />
+            </div>
+          ) : null}
+
+          <div className="grid gap-4">
             {blocks.map((b) => (
               <React.Fragment key={b.id}>
                 {renderBlock(b, profile.id, linkMode)}
@@ -566,8 +568,8 @@ export function CreatorPage({
             ))}
           </div>
 
-          <footer className="pt-4 text-center text-xs text-[var(--creator-muted)]">
-            <a className="underline underline-offset-4" href="/">
+          <footer className="pt-2 text-center text-[11px] uppercase tracking-[0.22em] text-[var(--creator-muted)]">
+            <a className="hover:text-[var(--creator-text)]" href="/">
               Powered by Sundae
             </a>
           </footer>

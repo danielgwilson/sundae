@@ -60,8 +60,8 @@
   --popover-foreground: var(--foreground);
 
   /* Cobalt (primary) */
-  --primary: oklch(0.64 0.18 245);
-  --primary-foreground: oklch(0.16 0.02 265);
+  --primary: oklch(0.54 0.2 248);
+  --primary-foreground: oklch(0.98 0 0);
 
   /* Soft neutral tint (secondary) */
   --secondary: oklch(0.97 0 0);
@@ -77,9 +77,9 @@
   --destructive: oklch(0.62 0.25 25);
   --border: oklch(0.92 0 0);
   --input: oklch(0.94 0 0);
-  --ring: oklch(0.7 0.16 235);
+  --ring: oklch(0.62 0.18 244);
 
-  --chart-1: oklch(0.64 0.18 245);
+  --chart-1: oklch(0.54 0.2 248);
   --chart-2: oklch(0.72 0.14 220);
   --chart-3: oklch(0.75 0.16 50);
   --chart-4: oklch(0.62 0.22 25);
@@ -113,8 +113,8 @@
   --popover: oklch(0.2 0.02 265);
   --popover-foreground: var(--foreground);
 
-  --primary: oklch(0.86 0.19 150);
-  --primary-foreground: oklch(0.15 0.02 265);
+  --primary: oklch(0.6 0.19 248);
+  --primary-foreground: oklch(0.98 0 0);
 
   --secondary: oklch(0.23 0.02 265);
   --secondary-foreground: var(--foreground);
@@ -505,7 +505,7 @@
   }
 
   .brand-embed-scale {
-    transform: scale(0.9);
+    transform: scale(0.95);
     transform-origin: top center;
   }
 
@@ -634,6 +634,258 @@
       24px 24px;
     animation: pixel-grid-drift 96s linear infinite;
     mix-blend-mode: multiply;
+  }
+
+  .creator-shell {
+    font-family: var(--font-sans);
+    color: var(--creator-text);
+  }
+
+  .creator-canvas {
+    position: relative;
+  }
+
+  .creator-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2.5rem;
+    border: 1px solid
+      color-mix(in oklab, var(--creator-text) 14%, transparent);
+    background: color-mix(in oklab, var(--creator-card) 86%, transparent);
+    padding: 1.75rem 1.5rem;
+    text-align: center;
+    box-shadow: 0 28px 70px -58px
+      color-mix(in oklab, var(--creator-text) 45%, transparent);
+    backdrop-filter: blur(16px);
+  }
+
+  .creator-hero::before {
+    content: "";
+    position: absolute;
+    inset: -40% -20% auto -20%;
+    height: 70%;
+    background: radial-gradient(
+      60% 60% at 50% 30%,
+      color-mix(in oklab, var(--creator-accent) 40%, transparent),
+      transparent 70%
+    );
+    opacity: 0.65;
+    pointer-events: none;
+  }
+
+  .creator-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 30%,
+      color-mix(in oklab, var(--creator-text) 6%, transparent)
+    );
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .creator-avatar-shell {
+    position: relative;
+    margin: 0 auto;
+    height: 4.5rem;
+    width: 4.5rem;
+    overflow: hidden;
+    border-radius: 999px;
+    border: 1px solid
+      color-mix(in oklab, var(--creator-text) 16%, transparent);
+    background: color-mix(in oklab, var(--creator-card) 92%, transparent);
+    box-shadow: 0 18px 46px -36px
+      color-mix(in oklab, var(--creator-text) 40%, transparent);
+  }
+
+  .creator-handle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 999px;
+    border: 1px solid
+      color-mix(in oklab, var(--creator-text) 14%, transparent);
+    background: color-mix(in oklab, var(--creator-card) 80%, transparent);
+    padding: 0.4rem 0.85rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    box-shadow: inset 0 1px 0
+      color-mix(in oklab, var(--creator-text) 10%, transparent);
+  }
+
+  .creator-surface {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.75rem;
+    border: 1px solid
+      color-mix(in oklab, var(--creator-text) 14%, transparent);
+    background: color-mix(in oklab, var(--creator-card) 84%, transparent);
+    box-shadow: 0 20px 52px -46px
+      color-mix(in oklab, var(--creator-text) 36%, transparent);
+    backdrop-filter: blur(14px);
+  }
+
+  .creator-surface--interactive {
+    cursor: pointer;
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .creator-surface--interactive::before {
+    content: "";
+    position: absolute;
+    inset: -40% -20% auto -20%;
+    height: 70%;
+    background: radial-gradient(
+      70% 70% at 50% 30%,
+      color-mix(in oklab, var(--creator-btn-bg) 40%, transparent),
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    pointer-events: none;
+  }
+
+  .creator-surface--interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 32px 70px -52px
+      color-mix(in oklab, var(--creator-text) 50%, transparent);
+    background: color-mix(in oklab, var(--creator-card) 92%, transparent);
+  }
+
+  .creator-surface--interactive:hover::before {
+    opacity: 0.55;
+  }
+
+  .creator-icon-badge {
+    display: grid;
+    height: 2.5rem;
+    width: 2.5rem;
+    place-items: center;
+    border-radius: 1.1rem;
+    border: 1px solid
+      color-mix(in oklab, var(--creator-text) 16%, transparent);
+    background: color-mix(in oklab, var(--creator-card) 90%, transparent);
+    color: var(--creator-text);
+    box-shadow: inset 0 1px 0
+      color-mix(in oklab, var(--creator-text) 10%, transparent);
+  }
+
+  .creator-arrow {
+    display: grid;
+    height: 2.5rem;
+    width: 2.5rem;
+    place-items: center;
+    border-radius: 1.1rem;
+    border: 1px solid
+      color-mix(in oklab, var(--creator-text) 16%, transparent);
+    background: color-mix(in oklab, var(--creator-card) 88%, transparent);
+    color: var(--creator-text);
+    box-shadow: 0 8px 24px -20px
+      color-mix(in oklab, var(--creator-text) 30%, transparent);
+    transition: transform 0.2s ease;
+  }
+
+  .creator-surface--interactive:hover .creator-arrow {
+    transform: translateY(-1px);
+  }
+
+  .creator-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-radius: 999px;
+    border: 1px solid
+      color-mix(in oklab, var(--creator-text) 14%, transparent);
+    background: color-mix(in oklab, var(--creator-card) 86%, transparent);
+    padding: 0.5rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow: 0 10px 30px -24px
+      color-mix(in oklab, var(--creator-text) 35%, transparent);
+    transition:
+      transform 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .creator-pill:hover {
+    transform: translateY(-1px);
+    background: color-mix(in oklab, var(--creator-card) 94%, transparent);
+  }
+
+  .creator-pill-icon {
+    display: grid;
+    height: 2rem;
+    width: 2rem;
+    place-items: center;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--creator-accent) 22%, transparent);
+    color: var(--creator-text);
+    box-shadow: inset 0 1px 0
+      color-mix(in oklab, var(--creator-text) 10%, transparent);
+  }
+
+  .creator-input {
+    height: 2.75rem;
+    width: 100%;
+    border-radius: 1.2rem;
+    border: 1px solid
+      color-mix(in oklab, var(--creator-text) 14%, transparent);
+    background: color-mix(in oklab, var(--creator-card) 86%, transparent);
+    padding: 0 1rem;
+    font-size: 0.9rem;
+    color: var(--creator-text);
+    box-shadow: inset 0 1px 0
+      color-mix(in oklab, var(--creator-text) 12%, transparent);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .creator-input::placeholder {
+    color: var(--creator-muted);
+  }
+
+  .creator-input:focus {
+    outline: none;
+    border-color: color-mix(in oklab, var(--creator-accent) 65%, transparent);
+    box-shadow: 0 0 0 4px
+      color-mix(in oklab, var(--creator-accent) 20%, transparent);
+    background: color-mix(in oklab, var(--creator-card) 92%, transparent);
+  }
+
+  .creator-cta {
+    display: block;
+    width: 100%;
+    border-radius: 1.2rem;
+    background: linear-gradient(
+      120deg,
+      color-mix(in oklab, var(--creator-btn-bg) 92%, transparent),
+      color-mix(in oklab, var(--creator-accent) 28%, var(--creator-btn-bg))
+    );
+    padding: 0.85rem 1.25rem;
+    text-align: center;
+    font-weight: 600;
+    color: var(--creator-btn-text);
+    box-shadow: 0 20px 48px -38px
+      color-mix(in oklab, var(--creator-btn-bg) 55%, transparent);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      filter 0.2s ease;
+  }
+
+  .creator-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 28px 64px -44px
+      color-mix(in oklab, var(--creator-btn-bg) 65%, transparent);
+    filter: saturate(1.05);
   }
 
   .creator-grid {
