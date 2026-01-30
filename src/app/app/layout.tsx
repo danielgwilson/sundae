@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { signOut } from "@/auth";
 import { AppNav } from "@/components/app/app-nav";
@@ -21,7 +22,7 @@ export default async function AppLayout({
         <div className="mx-auto max-w-6xl px-6 py-5">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <a
+              <Link
                 href="/app"
                 className="group inline-flex items-center gap-3"
                 aria-label="Sundae Studio"
@@ -33,7 +34,7 @@ export default async function AppLayout({
                   </div>
                   <div className="text-xs text-muted-foreground">Studio</div>
                 </div>
-              </a>
+              </Link>
             </div>
 
             <AppNav className="order-3 w-full sm:order-none sm:w-auto" />

@@ -105,13 +105,13 @@ export default async function Home() {
             <div className="brand-screen">
               <div className="brand-embed">
                 <div className="brand-embed-scale">
-                    <CreatorPage
-                      profile={DEMO_PROFILE}
-                      blocks={DEMO_BLOCKS}
-                      linkMode="direct"
-                      disableAnalytics
-                      layout="showcase"
-                    />
+                  <CreatorPage
+                    profile={DEMO_PROFILE}
+                    blocks={DEMO_BLOCKS}
+                    linkMode="direct"
+                    disableAnalytics
+                    layout="showcase"
+                  />
                 </div>
               </div>
             </div>

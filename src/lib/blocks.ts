@@ -75,7 +75,7 @@ export function defaultBlockData(type: BlockType): BlockDataByType[BlockType] {
       return { url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" };
     case "social":
       return {
-        links: [{ platform: "instagram", url: "https://instagram.com/" }],
+        links: [{ platform: "instagram", url: "@yourhandle" }],
       };
     case "support":
       return { title: "Support my work", url: "https://ko-fi.com/" };

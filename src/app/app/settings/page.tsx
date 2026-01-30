@@ -2,6 +2,7 @@ import { asc, eq } from "drizzle-orm";
 import { CreatorPage } from "@/components/creator/creator-page";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { ColorStringField } from "@/components/ui/color-string-field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -103,20 +104,23 @@ export default async function SettingsPage() {
           <Separator className="my-4" />
           <div className="grid gap-3">
             <div className="text-xs text-muted-foreground">Presets (fast)</div>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {THEME_PRESET_IDS.map((id) => (
                 <form key={id} action={applyThemePreset.bind(null, id)}>
                   <Button
                     type="submit"
                     variant="outline"
-                    className="h-10 w-full justify-start gap-2 rounded-2xl"
+                    className="h-10 w-[11.5rem] justify-start gap-2 rounded-2xl px-3"
+                    title={THEME_PRESETS[id].name}
                   >
                     <span
                       aria-hidden="true"
-                      className="h-2.5 w-2.5 rounded-full"
+                      className="h-2.5 w-2.5 shrink-0 rounded-full"
                       style={{ background: THEME_PRESETS[id].theme.accent }}
                     />
-                    {THEME_PRESETS[id].name}
+                    <span className="min-w-0 truncate">
+                      {THEME_PRESETS[id].name}
+                    </span>
                   </Button>
                 </form>
               ))}
@@ -125,69 +129,76 @@ export default async function SettingsPage() {
 
           <Separator className="my-6" />
           <form className="grid gap-4" action={updateTheme}>
+            <ColorStringField
+              label="Background"
+              name="background"
+              defaultValue={safeString(theme.background)}
+              placeholder="radial-gradient(...), #ffffff, oklch(...)"
+              description="This can be a solid color or a full CSS gradient."
+            />
+
             <div className="grid gap-2">
-              <Label htmlFor="background">Background</Label>
-              <Input
-                id="background"
-                name="background"
-                defaultValue={safeString(theme.background)}
-                placeholder="#0b1020"
-              />
+              <Label htmlFor="effects">Effects</Label>
+              <select
+                id="effects"
+                name="effects"
+                defaultValue={safeString(theme.effects) || "full"}
+                className="studio-input h-11 w-full rounded-2xl px-4 text-sm text-foreground shadow-[0_12px_26px_-22px_oklch(0.17_0.02_265/25%)] outline-none transition-[border-color,box-shadow] duration-200 focus-visible:border-ring focus-visible:ring-ring/35 focus-visible:ring-[3px]"
+              >
+                <option value="full">Full (noise + grid)</option>
+                <option value="minimal">Minimal (faster)</option>
+              </select>
             </div>
+
             <div className="grid gap-2">
-              <Label htmlFor="cardBackground">Card background</Label>
-              <Input
-                id="cardBackground"
-                name="cardBackground"
-                defaultValue={safeString(theme.cardBackground)}
-                placeholder="rgba(255,255,255,0.06)"
-              />
+              <Label htmlFor="layout">Layout</Label>
+              <select
+                id="layout"
+                name="layout"
+                defaultValue={safeString(theme.layout) || "default"}
+                className="studio-input h-11 w-full rounded-2xl px-4 text-sm text-foreground shadow-[0_12px_26px_-22px_oklch(0.17_0.02_265/25%)] outline-none transition-[border-color,box-shadow] duration-200 focus-visible:border-ring focus-visible:ring-ring/35 focus-visible:ring-[3px]"
+              >
+                <option value="default">Centered</option>
+                <option value="showcase">Showcase (wide)</option>
+              </select>
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="text">Text</Label>
-              <Input
-                id="text"
-                name="text"
-                defaultValue={safeString(theme.text)}
-                placeholder="#ffffff"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="mutedText">Muted text</Label>
-              <Input
-                id="mutedText"
-                name="mutedText"
-                defaultValue={safeString(theme.mutedText)}
-                placeholder="rgba(255,255,255,0.75)"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="buttonBackground">Button background</Label>
-              <Input
-                id="buttonBackground"
-                name="buttonBackground"
-                defaultValue={safeString(theme.buttonBackground)}
-                placeholder="#7c3aed"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="buttonText">Button text</Label>
-              <Input
-                id="buttonText"
-                name="buttonText"
-                defaultValue={safeString(theme.buttonText)}
-                placeholder="#ffffff"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="accent">Accent</Label>
-              <Input
-                id="accent"
-                name="accent"
-                defaultValue={safeString(theme.accent)}
-                placeholder="#22c55e"
-              />
-            </div>
+            <ColorStringField
+              label="Card background"
+              name="cardBackground"
+              defaultValue={safeString(theme.cardBackground)}
+              placeholder="rgba(255,255,255,0.06)"
+              description="Any CSS color works (hex, rgb, oklch). Use the swatch to pick a hex color."
+            />
+            <ColorStringField
+              label="Text"
+              name="text"
+              defaultValue={safeString(theme.text)}
+              placeholder="#ffffff"
+            />
+            <ColorStringField
+              label="Muted text"
+              name="mutedText"
+              defaultValue={safeString(theme.mutedText)}
+              placeholder="rgba(255,255,255,0.75)"
+            />
+            <ColorStringField
+              label="Button background"
+              name="buttonBackground"
+              defaultValue={safeString(theme.buttonBackground)}
+              placeholder="#7c3aed"
+            />
+            <ColorStringField
+              label="Button text"
+              name="buttonText"
+              defaultValue={safeString(theme.buttonText)}
+              placeholder="#ffffff"
+            />
+            <ColorStringField
+              label="Accent"
+              name="accent"
+              defaultValue={safeString(theme.accent)}
+              placeholder="#22c55e"
+            />
 
             <Button type="submit" className="h-10 rounded-full">
               Save theme

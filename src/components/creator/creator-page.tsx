@@ -90,11 +90,7 @@ function BlockShell({
   className?: string;
 }) {
   return (
-    <div
-      className={cn("creator-surface px-5 py-4", className)}
-    >
-      {children}
-    </div>
+    <div className={cn("creator-surface px-5 py-4", className)}>{children}</div>
   );
 }
 
@@ -275,9 +271,7 @@ function SocialBlock({ data }: { data: unknown }) {
         <div className="text-xs uppercase tracking-[0.22em] text-[var(--creator-muted)]">
           Socials
         </div>
-        <div className="text-xs text-[var(--creator-muted)]">
-          Tap to follow
-        </div>
+        <div className="text-xs text-[var(--creator-muted)]">Tap to follow</div>
       </div>
       <div className="flex flex-wrap gap-2">
         {normalized.map((l) => (
@@ -308,12 +302,7 @@ function SupportBlock({ data }: { data: unknown }) {
   if (!url) return null;
 
   return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noreferrer"
-      className="creator-cta"
-    >
+    <a href={url} target="_blank" rel="noreferrer" className="creator-cta">
       {title}
     </a>
   );
@@ -360,10 +349,7 @@ function SignupBlock({
           required
           className="creator-input"
         />
-        <button
-          type="submit"
-          className="creator-cta h-11 text-sm"
-        >
+        <button type="submit" className="creator-cta h-11 text-sm">
           Subscribe
         </button>
       </form>
@@ -426,10 +412,7 @@ function ContactBlock({
           rows={4}
           className="creator-input min-h-[120px] resize-none py-3"
         />
-        <button
-          type="submit"
-          className="creator-cta h-11 text-sm"
-        >
+        <button type="submit" className="creator-cta h-11 text-sm">
           Send
         </button>
       </form>
@@ -477,7 +460,7 @@ export function CreatorPage({
   embed,
   linkMode = "tracked",
   isOwner,
-  layout = "default",
+  layout,
   effects,
 }: {
   profile: Profile;
@@ -494,21 +477,20 @@ export function CreatorPage({
   const showBadge = Boolean(showPreviewBadge && !hidePreviewBadge);
   const shouldTrack = !(disableAnalytics || showPreviewBadge);
   const showActionBar = Boolean(isOwner && !embed && !showPreviewBadge);
-  const effectsMode = effects ?? (embed ? "minimal" : "full");
+  const layoutMode = layout ?? profile.theme?.layout ?? "default";
+  const effectsMode =
+    effects ?? profile.theme?.effects ?? (embed ? "minimal" : "full");
   const hasBlocks = blocks.some((block) => block.enabled);
   const layoutPadding =
-    layout === "showcase"
+    layoutMode === "showcase"
       ? "px-0 py-6 sm:px-0 sm:py-7"
       : "px-6 py-12 sm:px-7 sm:py-14";
-  const canvasPadding = embed
-    ? "px-0 py-6 sm:px-0 sm:py-7"
-    : layoutPadding;
-  const layoutWidth =
-    embed
+  const canvasPadding = embed ? "px-0 py-6 sm:px-0 sm:py-7" : layoutPadding;
+  const layoutWidth = embed
+    ? "max-w-none"
+    : layoutMode === "showcase"
       ? "max-w-none"
-      : layout === "showcase"
-        ? "max-w-none"
-        : "max-w-[32rem]";
+      : "max-w-[32rem]";
 
   return (
     <div
@@ -565,9 +547,7 @@ export function CreatorPage({
               </p>
             ) : null}
             <div className="mt-4 flex items-center justify-center gap-2 text-xs text-[var(--creator-muted)]">
-              <span className="creator-handle">
-                @{profile.handle}
-              </span>
+              <span className="creator-handle">@{profile.handle}</span>
             </div>
           </header>
 

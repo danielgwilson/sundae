@@ -8,6 +8,8 @@ export type CreatorTheme = {
   buttonBackground?: string;
   buttonText?: string;
   accent?: string;
+  layout?: "default" | "showcase";
+  effects?: "full" | "minimal";
 };
 
 export function themeToStyle(theme: CreatorTheme | null | undefined) {

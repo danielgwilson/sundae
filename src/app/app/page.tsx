@@ -1,4 +1,5 @@
 import { sql } from "drizzle-orm";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { getDb } from "@/lib/db";
@@ -37,11 +38,11 @@ export default async function AppHomePage() {
             Manage your creator page and track performance.
           </p>
         </div>
-        <a href={`/${profile.handle}`}>
+        <Link href={`/${profile.handle}`}>
           <Button variant="outline" className="rounded-full">
             View public page
           </Button>
-        </a>
+        </Link>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
@@ -53,9 +54,9 @@ export default async function AppHomePage() {
             {blockCount ?? 0}
           </div>
           <div className="mt-5 text-sm">
-            <a className="underline underline-offset-4" href="/app/editor">
+            <Link className="underline underline-offset-4" href="/app/editor">
               Edit blocks
-            </a>
+            </Link>
           </div>
         </Card>
         <Card className="studio-card studio-card--interactive p-6">
@@ -66,9 +67,12 @@ export default async function AppHomePage() {
             {views7d ?? 0}
           </div>
           <div className="mt-5 text-sm">
-            <a className="underline underline-offset-4" href="/app/analytics">
+            <Link
+              className="underline underline-offset-4"
+              href="/app/analytics"
+            >
               View analytics
-            </a>
+            </Link>
           </div>
         </Card>
         <Card className="studio-card studio-card--interactive p-6">
@@ -79,9 +83,12 @@ export default async function AppHomePage() {
             {clicks7d ?? 0}
           </div>
           <div className="mt-5 text-sm">
-            <a className="underline underline-offset-4" href="/app/analytics">
+            <Link
+              className="underline underline-offset-4"
+              href="/app/analytics"
+            >
               View analytics
-            </a>
+            </Link>
           </div>
         </Card>
       </div>

@@ -79,6 +79,8 @@ export async function updateTheme(formData: FormData) {
   const { profile } = await getMyWorkspaceAndProfile();
 
   const background = safeString(formData.get("background"));
+  const effects = safeString(formData.get("effects"));
+  const layout = safeString(formData.get("layout"));
   const cardBackground = safeString(formData.get("cardBackground"));
   const text = safeString(formData.get("text"));
   const mutedText = safeString(formData.get("mutedText"));
@@ -89,6 +91,8 @@ export async function updateTheme(formData: FormData) {
   const nextTheme = {
     ...(profile.theme ?? {}),
     ...(background ? { background } : {}),
+    ...(effects === "full" || effects === "minimal" ? { effects } : {}),
+    ...(layout === "default" || layout === "showcase" ? { layout } : {}),
     ...(cardBackground ? { cardBackground } : {}),
     ...(text ? { text } : {}),
     ...(mutedText ? { mutedText } : {}),
@@ -115,9 +119,12 @@ export async function applyThemePreset(preset: ThemePresetId) {
     throw new Error("Unknown theme preset.");
   }
 
+  // Keep any extra theme prefs (e.g. layout/effects) while applying the preset colors.
+  const nextTheme = { ...(profile.theme ?? {}), ...entry.theme };
+
   await db
     .update(creatorProfiles)
-    .set({ theme: entry.theme, updatedAt: new Date() })
+    .set({ theme: nextTheme, updatedAt: new Date() })
     .where(eq(creatorProfiles.id, profile.id));
 
   revalidatePath("/app/settings");

@@ -27,6 +27,86 @@ function parseSocialLines(
     .slice(0, 12);
 }
 
+function safeLower(value: string) {
+  return value.trim().toLowerCase();
+}
+
+function normalizeSocialUrl(platform: string, raw: string): string | null {
+  const p = safeLower(platform);
+  const v = raw.trim();
+  if (!p || !v) return null;
+
+  if (/^https?:\/\//i.test(v)) return v;
+
+  // Common "paste without scheme" cases.
+  if (/^(www\.)/i.test(v)) return `https://${v}`;
+
+  if (p === "email") {
+    if (/^mailto:/i.test(v)) return v;
+    if (v.includes("@")) return `mailto:${v}`;
+    return null;
+  }
+
+  if (p === "phone") {
+    if (/^tel:/i.test(v)) return v;
+    const digits = v.replace(/[^\d+]/g, "");
+    return digits ? `tel:${digits}` : null;
+  }
+
+  const handle = v.replace(/^@/, "").trim();
+  if (!handle) return null;
+
+  if (p === "instagram") return `https://instagram.com/${handle}`;
+  if (p === "x" || p === "twitter") return `https://x.com/${handle}`;
+  if (p === "tiktok") return `https://www.tiktok.com/@${handle}`;
+  if (p === "twitch") return `https://www.twitch.tv/${handle}`;
+
+  if (p === "youtube") {
+    const yt = handle.startsWith("@") ? handle : `@${handle}`;
+    return `https://www.youtube.com/${yt}`;
+  }
+
+  // Default to a best-effort website URL if it looks like a hostname.
+  if (p === "website" && /^[^/\s]+\.[^/\s]+/.test(v)) {
+    return `https://${v}`;
+  }
+
+  return v;
+}
+
+function parseSocialJson(
+  raw: string,
+): Array<{ platform: string; url: string }> {
+  try {
+    const value = JSON.parse(raw);
+    if (!Array.isArray(value)) return [];
+    return value
+      .map((row) => (row && typeof row === "object" ? row : null))
+      .filter(Boolean)
+      .map((row) => row as Record<string, unknown>)
+      .map((row) => ({
+        platform: typeof row.platform === "string" ? row.platform.trim() : "",
+        url: typeof row.url === "string" ? row.url.trim() : "",
+      }))
+      .filter((row) => row.platform && row.url)
+      .slice(0, 12);
+  } catch {
+    return [];
+  }
+}
+
+function normalizeSocialLinks(
+  links: Array<{ platform: string; url: string }>,
+): Array<{ platform: string; url: string }> {
+  return links
+    .map((row) => ({
+      platform: row.platform.trim(),
+      url: normalizeSocialUrl(row.platform, row.url) ?? "",
+    }))
+    .filter((row) => row.platform && row.url)
+    .slice(0, 12);
+}
+
 export async function createBlock(type: BlockType) {
   const db = getDb();
   const { profile } = await getMyWorkspaceAndProfile();
@@ -171,9 +251,13 @@ export async function updateBlock(blockId: string, formData: FormData) {
       };
       break;
     case "social":
-      data = {
-        links: parseSocialLines(safeString(formData.get("links"))),
-      };
+      {
+        const json = safeString(formData.get("links_json"));
+        const fromJson = json ? parseSocialJson(json) : [];
+        const fromLines = parseSocialLines(safeString(formData.get("links")));
+        const picked = fromJson.length > 0 ? fromJson : fromLines;
+        data = { links: normalizeSocialLinks(picked) };
+      }
       break;
     case "support":
       data = {

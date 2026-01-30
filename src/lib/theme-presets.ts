@@ -4,13 +4,25 @@ export type ThemePresetId =
   | "vanilla"
   | "strawberry-night"
   | "mint-chip"
-  | "blueberry-soda";
+  | "blueberry-soda"
+  | "mono-ink"
+  | "sunset-film"
+  | "orchid-noir"
+  | "ocean-foam"
+  | "citrus-glass"
+  | "copper-night";
 
 export const THEME_PRESET_IDS: ThemePresetId[] = [
   "vanilla",
   "strawberry-night",
   "mint-chip",
   "blueberry-soda",
+  "mono-ink",
+  "sunset-film",
+  "orchid-noir",
+  "ocean-foam",
+  "citrus-glass",
+  "copper-night",
 ];
 
 export const THEME_PRESETS: Record<
@@ -67,6 +79,84 @@ export const THEME_PRESETS: Record<
       buttonBackground: "oklch(0.66 0.2 245)",
       buttonText: "oklch(0.98 0 0)",
       accent: "oklch(0.84 0.12 80)",
+    },
+  },
+  "mono-ink": {
+    name: "Mono Ink",
+    theme: {
+      background:
+        "radial-gradient(980px 620px at 14% 10%, oklch(0.92 0 0 / 85%), transparent 60%), radial-gradient(720px 520px at 92% 12%, oklch(0.86 0 0 / 65%), transparent 62%), linear-gradient(180deg, oklch(0.99 0 0), oklch(0.96 0 0))",
+      cardBackground: "oklch(1 0 0 / 92%)",
+      text: "oklch(0.18 0 0)",
+      mutedText: "oklch(0.46 0 0)",
+      buttonBackground: "oklch(0.18 0 0)",
+      buttonText: "oklch(0.99 0 0)",
+      accent: "oklch(0.72 0 0)",
+    },
+  },
+  "sunset-film": {
+    name: "Sunset Film",
+    theme: {
+      background:
+        "radial-gradient(920px 560px at 12% 10%, oklch(0.82 0.12 50 / 24%), transparent 62%), radial-gradient(760px 520px at 88% 14%, oklch(0.75 0.18 30 / 18%), transparent 64%), radial-gradient(680px 520px at 72% 86%, oklch(0.76 0.16 320 / 12%), transparent 60%), linear-gradient(180deg, oklch(0.99 0.01 60), oklch(0.96 0.02 40))",
+      cardBackground: "oklch(0.995 0.01 60 / 90%)",
+      text: "oklch(0.2 0.02 35)",
+      mutedText: "oklch(0.5 0.02 35)",
+      buttonBackground: "oklch(0.62 0.22 25)",
+      buttonText: "oklch(0.99 0 0)",
+      accent: "oklch(0.78 0.16 320)",
+    },
+  },
+  "orchid-noir": {
+    name: "Orchid Noir",
+    theme: {
+      background:
+        "radial-gradient(980px 620px at 12% 10%, oklch(0.62 0.22 320 / 16%), transparent 62%), radial-gradient(760px 520px at 88% 18%, oklch(0.62 0.2 255 / 18%), transparent 64%), linear-gradient(180deg, oklch(0.12 0.02 265), oklch(0.09 0.02 265))",
+      cardBackground: "oklch(0.24 0.02 265 / 92%)",
+      text: "oklch(0.98 0 0)",
+      mutedText: "oklch(0.98 0 0 / 72%)",
+      buttonBackground: "oklch(0.62 0.22 320)",
+      buttonText: "oklch(0.98 0 0)",
+      accent: "oklch(0.7 0.2 255)",
+    },
+  },
+  "ocean-foam": {
+    name: "Ocean Foam",
+    theme: {
+      background:
+        "radial-gradient(920px 560px at 10% 10%, oklch(0.86 0.08 210 / 26%), transparent 62%), radial-gradient(760px 520px at 88% 12%, oklch(0.78 0.12 245 / 18%), transparent 64%), linear-gradient(180deg, oklch(0.99 0.01 210), oklch(0.95 0.015 230))",
+      cardBackground: "oklch(0.99 0.01 220 / 92%)",
+      text: "oklch(0.18 0.02 250)",
+      mutedText: "oklch(0.46 0.02 250)",
+      buttonBackground: "oklch(0.52 0.16 240)",
+      buttonText: "oklch(0.99 0 0)",
+      accent: "oklch(0.8 0.1 200)",
+    },
+  },
+  "citrus-glass": {
+    name: "Citrus Glass",
+    theme: {
+      background:
+        "radial-gradient(920px 560px at 12% 12%, oklch(0.9 0.12 80 / 20%), transparent 62%), radial-gradient(760px 520px at 88% 12%, oklch(0.86 0.1 150 / 14%), transparent 64%), linear-gradient(180deg, oklch(0.995 0.005 255), oklch(0.965 0.01 255))",
+      cardBackground: "oklch(0.99 0.01 250 / 86%)",
+      text: "oklch(0.18 0.02 265)",
+      mutedText: "oklch(0.46 0.02 265)",
+      buttonBackground: "oklch(0.76 0.16 80)",
+      buttonText: "oklch(0.18 0.02 265)",
+      accent: "oklch(0.68 0.18 150)",
+    },
+  },
+  "copper-night": {
+    name: "Copper Night",
+    theme: {
+      background:
+        "radial-gradient(980px 620px at 14% 10%, oklch(0.74 0.16 60 / 14%), transparent 62%), radial-gradient(760px 520px at 90% 16%, oklch(0.62 0.18 25 / 16%), transparent 64%), linear-gradient(180deg, oklch(0.12 0.02 265), oklch(0.09 0.02 265))",
+      cardBackground: "oklch(0.22 0.02 265 / 92%)",
+      text: "oklch(0.98 0 0)",
+      mutedText: "oklch(0.98 0 0 / 72%)",
+      buttonBackground: "oklch(0.74 0.16 60)",
+      buttonText: "oklch(0.16 0.02 265)",
+      accent: "oklch(0.62 0.18 25)",
     },
   },
 };

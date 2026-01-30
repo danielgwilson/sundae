@@ -18,6 +18,7 @@ import {
   updateBlock,
 } from "./actions";
 import { EditorShell } from "./editor-shell";
+import { SocialLinksField } from "./social-links-field";
 
 function safeString(value: unknown): string {
   return typeof value === "string" ? value : "";
@@ -198,7 +199,10 @@ export default async function EditorPage() {
           );
 
           return (
-            <Card key={block.id} className="studio-card studio-card--interactive p-6">
+            <Card
+              key={block.id}
+              className="studio-card studio-card--interactive p-6"
+            >
               {header}
 
               <form
@@ -312,30 +316,19 @@ export default async function EditorPage() {
 
                 {block.type === "social" ? (
                   <div className="grid gap-2">
-                    <Label htmlFor={`${block.id}-links`}>Social links</Label>
-                    <Textarea
-                      id={`${block.id}-links`}
-                      name="links"
+                    <Label>Social links</Label>
+                    <SocialLinksField
                       defaultValue={
                         Array.isArray(data.links)
                           ? data.links
                               .map((l) => safeObject(l))
-                              .map(
-                                (l) =>
-                                  `${safeString(l.platform)}, ${safeString(l.url)}`,
-                              )
-                              .join("\n")
-                          : ""
-                      }
-                      rows={5}
-                      placeholder={
-                        "instagram, https://instagram.com/you\nx, https://x.com/you"
+                              .map((l) => ({
+                                platform: safeString(l.platform),
+                                url: safeString(l.url),
+                              }))
+                          : undefined
                       }
                     />
-                    <div className="text-xs text-muted-foreground">
-                      One per line:{" "}
-                      <span className="font-mono">platform, url</span>
-                    </div>
                   </div>
                 ) : null}
 
